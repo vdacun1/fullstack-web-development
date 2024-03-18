@@ -8,7 +8,5 @@ export default function LocalProxy({ page }) {
   useEffect(() => {
     console.log("Redirecting to", page);
     router.push(page);
-  }, []);
-
-  return;
+  }, [page, router]);
 }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d3e61b82-f5e5-434f-a028-982836bc819f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/presentation/routes/authentication.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend-project/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend-project/.idea/frontend-project.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend-project/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend-project/.idea/jsLinters/eslint.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend-project/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend-project/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-project/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-project/.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-project/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-project/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-project/src/app/(AuthGroup)/login/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-project/src/app/(AuthGroup)/login/page.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2dedKxYZxwfBIreEPLygd8xx4ib" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "unstable/workflow-update",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.run & debug.executor": "Debug",
+    "npm.start.executor": "Debug",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\victor\\Documents\\universidad_de_palermo\\fullstack-web-development\\backend-project\\node_modules\\prettier",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "actions.on.save",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\victor\Documents\universidad_de_palermo\fullstack-web-development\backend-project\app" />
+      <recent name="C:\Users\victor\Documents\universidad_de_palermo\fullstack-web-development\backend-project\presentation" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="run &amp; debug" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="run &amp; debug" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d3e61b82-f5e5-434f-a028-982836bc819f" name="Changes" comment="" />
+      <created>1710372418237</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710372418237</updated>
+      <workItem from="1710372419306" duration="2227000" />
+      <workItem from="1710374665818" duration="1862000" />
+      <workItem from="1710417623366" duration="3004000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
