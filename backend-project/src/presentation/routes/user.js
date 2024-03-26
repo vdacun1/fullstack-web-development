@@ -7,11 +7,11 @@ user.post("/register", RegisterRequest.validate(), async function (req, res) {
   return await RegisterRequest.handle(req, res);
 });
 
-user.post("/forgot-password", function (req, res) {
+user.post("/forgot-password", async function (req, res) {
   return res.send("Forgot password");
 });
 
-user.post("/confirm-email", function (req, res) {
+user.post("/confirm-email", async function (req, res) {
   return res.send("Confirm email");
 });
 

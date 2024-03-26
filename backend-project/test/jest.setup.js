@@ -1,20 +1,19 @@
-const mysql = require("mysql-test");
-const SequelizeRepository = require("../app/infrastructure/db/SequelizeRepository");
-const setup = async (globalConfig, projectConfig) => {
-  let sequelize;
+const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
+const dotenv = require("dotenv");
 
-  const server = mysql.createServer();
-  server.listen();
+dotenv.config();
 
-  sequelize = SequelizeRepository.config();
+let server;
 
-  const models = [require("../app/domain/models/UserModel")];
-  models.forEach((model) => model(sequelize));
+beforeAll(async () => {
+  server = await MongoMemoryServer.create();
 
-  await sequelize.sync({ force: true });
-  await sequelize.close();
+  await mongoose.connect(server.getUri(), {});
+});
 
-  globalThis.__MYSQL__ = server;
-};
+afterAll(async () => {
+  if (server) await server.stop();
 
-module.exports = setup;
+  await mongoose.connection.close();
+});

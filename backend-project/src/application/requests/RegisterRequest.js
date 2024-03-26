@@ -5,7 +5,7 @@ const ErrorResponse = require("../responses/ErrorResponse");
 
 const RegisterRequest = {
   validate: () => [
-    body("email").isEmail(),
+    body("email").isEmail().trim().normalizeEmail().escape(),
     body("password").isString().isLength({ min: 6, max: 20 }),
   ],
   handle: async (req, res) => {
@@ -14,10 +14,7 @@ const RegisterRequest = {
       return await RegisterUseCase.handle(res, matchedData(req));
     }
 
-    return ErrorResponse.handleBadRequest(
-      res,
-      ErrorResponse.handleValidation(result.array()),
-    );
+    return await ErrorResponse.handleValidation(res, result.array());
   },
 };
 

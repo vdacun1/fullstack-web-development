@@ -3,6 +3,5 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
-  globalSetup: "./test/jest.setup.js",
-  globalTeardown: "./test/jest.teardown.js",
+  setupFilesAfterEnv: ["./test/jest.setup.js"],
 };

@@ -1,11 +1,13 @@
 {
-  "extends": "canonical/prettier",
+  "extends": [
+    "prettier"
+  ],
   "env": {
-    "jest/globals": true,
     "browser": true,
     "es2021": true
   },
   "plugins": [
-    "jest"
+    "jest",
+    "prettier"
   ]
 }
