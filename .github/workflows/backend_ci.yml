@@ -23,7 +23,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: cd backend-project
     - run: npm ci
-    - run: npm run test -- --coverage
+    - run: npm run test-coverage
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
