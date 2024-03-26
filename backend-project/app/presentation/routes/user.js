@@ -1,9 +1,18 @@
 const express = require("express");
-const router = express.Router();
+const RegisterRequest = require("../../application/requests/RegisterRequest");
 
-router.get("/:user_id", function (req, res, next) {
-  console.info(req);
-  res.send(`You are user ${req.params["user_id"]}`);
+const user = express.Router();
+
+user.post("/register", RegisterRequest.validate(), async function (req, res) {
+  return await RegisterRequest.handle(req, res);
 });
 
-module.exports = router;
+user.post("/forgot-password", function (req, res) {
+  return res.send("Forgot password");
+});
+
+user.post("/confirm-email", function (req, res) {
+  return res.send("Confirm email");
+});
+
+module.exports = user;
