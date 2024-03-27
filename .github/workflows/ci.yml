@@ -33,12 +33,8 @@ jobs:
         run: npm install lcov-result-merger
       - name: Merge LCOV files
         run: ./node_modules/.bin/lcov-result-merger 'coverage/**/lcov.info' > lcov.info
-      - name: Install lcov-to-cloverxml
-        run: npm install lcov-to-cloverxml
-      - name: Convert LCOV to Clover XML
-        run: ./node_modules/.bin/lcov-to-cloverxml lcov.info > clover.xml
-      - name: Publish Coverage Report
-        uses: mikepenz/action-junit-report@v2
-        with:
-          report_paths: 'clover.xml'
-        if: always()
+      - name: Install lcov-parse and lcov-viewer
+        run: npm install lcov-parse lcov-viewer
+      - name: Parse and view LCOV
+        run: |
+          ./node_modules/.bin/lcov-parse lcov.info | ./node_modules/.bin/lcov-viewer
