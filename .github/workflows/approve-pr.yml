@@ -1,0 +1,16 @@
+name: Auto approve
+on:
+  check_suite:
+    types:
+      - completed
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    if: github.event.check_suite.conclusion == 'success'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Auto approve
+        uses: hmarr/auto-approve-action@v2.0.0
+        with:
+          github-token: "${{ secrets.AUTO_APPROVE_TOKEN }}"
