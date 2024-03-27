@@ -38,4 +38,4 @@ jobs:
       - name: Merge LCOV files
         run: ./node_modules/.bin/lcov-result-merger 'coverage/**/lcov.info' > lcov.info
       - name: Convert LCOV to Cobertura XML
-        run: python lcov-to-cobertura-xml/lcov_cobertura/lcov_cobertura.py lcov.info --output
+        run: python lcov-to-cobertura-xml/lcov_cobertura/lcov_cobertura.py lcov.info --output coverage.xml
