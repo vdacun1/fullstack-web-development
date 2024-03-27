@@ -15,8 +15,12 @@ jobs:
           node-version: '20.x'
       - run: npm ci
       - run: npm run test-coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+      - name: Install lcov-result-merger
+        run: npm install lcov-result-merger
+      - name: Merge LCOV files
+        run: ./node_modules/.bin/lcov-result-merger 'coverage/**/lcov.info' > lcov.info
+      - name: Publish Coverage Report
+        uses: mikepenz/action-junit-report@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          report_paths: 'lcov.info'
+        if: always()
