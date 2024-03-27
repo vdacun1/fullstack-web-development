@@ -13,7 +13,6 @@
 .DS_Store
 *.pem
 /.idea
-package-lock.json
 
 # test
 /coverage
