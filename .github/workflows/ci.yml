@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI
 
 on: [ push ]
 
@@ -27,14 +27,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20.x'
+      - name: Install Python 2.7
+        run: sudo apt-get install python2.7
+      - name: Clone lcov-to-cobertura-xml
+        run: git clone https://github.com/eriwen/lcov-to-cobertura-xml.git
       - run: npm ci
       - run: npm run test-coverage
       - name: Install lcov-result-merger
         run: npm install lcov-result-merger
       - name: Merge LCOV files
         run: ./node_modules/.bin/lcov-result-merger 'coverage/**/lcov.info' > lcov.info
-      - name: Install lcov-parse and lcov-viewer
-        run: npm install lcov-parse lcov-viewer
-      - name: Parse and view LCOV
-        run: |
-          ./node_modules/.bin/lcov-parse lcov.info | ./node_modules/.bin/lcov-viewer
+      - name: Convert LCOV to Cobertura XML
+        run: python lcov-to-cobertura-xml/lcov_cobertura/lcov_cobertura.py lcov.info --output
