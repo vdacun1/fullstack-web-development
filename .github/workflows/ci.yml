@@ -3,7 +3,7 @@ name: Continuous Integration
 on: [ push ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -16,3 +16,29 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+
+  coverage:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.x'
+      - run: npm ci
+      - run: npm run test-coverage
+      - name: Install lcov-result-merger
+        run: npm install lcov-result-merger
+      - name: Merge LCOV files
+        run: ./node_modules/.bin/lcov-result-merger 'coverage/**/lcov.info' > lcov.info
+      - name: Install lcov-to-cloverxml
+        run: npm install lcov-to-cloverxml
+      - name: Convert LCOV to Clover XML
+        run: ./node_modules/.bin/lcov-to-cloverxml lcov.info > clover.xml
+      - name: Publish Coverage Report
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: 'clover.xml'
+        if: always()
