@@ -4,6 +4,7 @@ on:
     types:
       - completed
 jobs:
+
   auto-approve:
     runs-on: ubuntu-latest
     if: github.event.check_suite.conclusion == 'success'
