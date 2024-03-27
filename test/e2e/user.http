@@ -1,0 +1,17 @@
+### POST /user/register
+POST {{base_url}}/user/register
+Content-Type: application/json
+
+{
+  "email": "victor1@victor.com",
+  "password": "passss"
+}
+
+### POST /user/register
+POST {{base_url}}/user/register
+Content-Type: application/json
+
+{
+  "email": "victor@victor.com",
+  "password": "this_is_a_password"
+}

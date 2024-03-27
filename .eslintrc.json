@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "plugins": [
+    "jest",
+    "prettier"
+  ]
+}
