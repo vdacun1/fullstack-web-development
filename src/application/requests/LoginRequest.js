@@ -1,23 +1,24 @@
-const { body, matchedData, validationResult } = require("express-validator");
-
+const { body, validationResult } = require("express-validator");
 const ErrorResponse = require("../responses/ErrorResponse");
 
 const LoginRequest = {
   validate: () => [
-    body("username").isString().isLength({ min: 3, max: 100 }),
+    body("email")
+      .isEmail()
+      .isLength({ min: 5, max: 255 })
+      .trim()
+      .normalizeEmail()
+      .escape(),
     body("password").isString().isLength({ min: 6, max: 20 }),
   ],
-  handle: (req, res) => {
+
+  handle: async (req, res) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
-      const data = matchedData(req);
-
-      console.log(data);
-
-      return res.send(`You are user ${data.username}, welcome!`);
+      return await res.status(200).send("Login successfully");
     }
 
-    return ErrorResponse.handleBadRequest(res, "Wrong username or password");
+    return await ErrorResponse.handleValidation(res, result.array());
   },
 };
 

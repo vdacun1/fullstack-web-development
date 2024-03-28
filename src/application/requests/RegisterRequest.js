@@ -13,6 +13,7 @@ const RegisterRequest = {
       .escape(),
     body("password").isString().isLength({ min: 6, max: 20 }),
   ],
+
   handle: async (req, res) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
