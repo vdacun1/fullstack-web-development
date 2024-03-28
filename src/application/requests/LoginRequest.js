@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const ErrorResponse = require("../responses/ErrorResponse");
+const { log } = require("../../infrastructure/logger");
 
 const LoginRequest = {
   validate: () => [
@@ -15,6 +16,7 @@ const LoginRequest = {
   handle: async (req, res) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
+      log.info("Login successfully");
       return await res.status(200).send("Login successfully");
     }
 
