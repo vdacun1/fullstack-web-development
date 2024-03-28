@@ -5,14 +5,17 @@ const Logger = {
     info: (message) => {
       console.info(colorize.green(message));
     },
+
     warn: (message) => {
       console.warn(colorize.yellow(message));
     },
+
     error: (error) => {
       console.error(colorize.red(error.message));
     },
+
     exception: (error) => {
-      console.error(colorize.red(error.message), colorize.blue(error.stack));
+      console.log(colorize.red(error.message), colorize.blue(error.stack));
     },
   },
 };

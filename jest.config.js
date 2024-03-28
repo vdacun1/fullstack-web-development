@@ -4,4 +4,7 @@ module.exports = {
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   setupFilesAfterEnv: ["./test/jest.setup.js"],
+  moduleNameMapper: {
+    "^@src/(.*)$": "<rootDir>/src/$1",
+  },
 };
