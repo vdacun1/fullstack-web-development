@@ -1,11 +1,4 @@
----
-name: Pull Request
-about: Use this template for all Pull Requests.
-title: ''
-labels: ''
-assignees: ''
-
----
+[![Coverage Status](https://coveralls.io/repos/github/vdacun1/fullstack-web-development/badge.svg?branch=unstable/login-use-case)](https://coveralls.io/github/vdacun1/fullstack-web-development?branch=develop)
 
 ## Description
 
