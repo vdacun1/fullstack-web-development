@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "node src/server.js",
     "run & debug": "nodemon src/server.js",
     "test-coverage": "jest --coverage",
     "test": "jest"
