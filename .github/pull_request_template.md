@@ -1,5 +1,3 @@
-[![Coverage Status](https://coveralls.io/repos/github/vdacun1/fullstack-web-development/badge.svg?branch=unstable/login-use-case)](https://coveralls.io/github/vdacun1/fullstack-web-development?branch=develop)
-
 ## Description
 
 Please include a summary of the changes and which issue is fixed. Please also include relevant motivation and context.
