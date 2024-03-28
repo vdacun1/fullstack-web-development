@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const ErrorResponse = require("../responses/ErrorResponse");
-const { log } = require("../../infrastructure/logger");
+const { log } = require("../../infrastructure/Logger");
 
 const LoginRequest = {
   validate: () => [
