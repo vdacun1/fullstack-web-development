@@ -8,7 +8,7 @@ auth.post("/login", LoginRequest.validate(), async function (req, res) {
 });
 
 auth.post("/logout", function (req, res) {
-  return res.send("Logout");
+  return res.status(200).send("Logout");
 });
 
 module.exports = auth;
