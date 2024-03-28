@@ -1,4 +1,4 @@
-const { log } = require("./Logger");
+const { log } = require("@src/infrastructure/Logger");
 
 describe("Logger", () => {
   beforeEach(() => {
