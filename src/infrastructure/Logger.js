@@ -31,6 +31,9 @@ const colorize = {
 };
 
 const getRelativeStack = (stack) => {
+  if (!stack) {
+    return "No stack trace available";
+  }
   const cwd = process.cwd();
   const lines = stack.split("\n");
   const relativeLines = lines.map((line) => {
