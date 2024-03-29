@@ -19,10 +19,6 @@ const esTransport = new ElasticsearchTransport({
   },
 });
 
-esTransport.on("error", function (err) {
-  console.error("Error occurred in ElasticsearchTransport: ", err);
-});
-
 const consoleTransport = new winston.transports.Console({
   format: winston.format.cli(),
 });
