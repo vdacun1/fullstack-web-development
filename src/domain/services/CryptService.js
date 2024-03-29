@@ -11,7 +11,6 @@ const CryptService = {
       .then((hash) => hash)
 
       .catch((error) => {
-        console.error(error);
         throw {
           status: HttpStatus.SERVER_ERROR,
           message: "Error while hashing password",

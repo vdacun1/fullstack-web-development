@@ -21,6 +21,7 @@ describe("POST /auth/login", () => {
     expect(response.status).toBe(400);
     expect(response.body.errors.email).toBe("Invalid value");
   });
+
   test("Should return validation error - Password invalid value", async () => {
     const response = await request(app).post("/auth/login").send({
       email: "user@email.com",
