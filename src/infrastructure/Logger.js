@@ -32,15 +32,12 @@ const metadata = () => {
   const stack = callsite();
   const frame = stack[2];
 
-  const fileName = frame.getFileName() || "unknown";
-  const functionName = frame.getFunctionName() || "anonymous";
-
   return {
     service: "backend",
     environment: process.env.NODE_ENV,
     request_id: Session.getRequestId(),
-    file: path.basename(fileName, ".js"),
-    caller: functionName || "anonymous",
+    file: path.basename(frame.getFileName(), ".js"),
+    caller: frame.getFunctionName(),
   };
 };
 
