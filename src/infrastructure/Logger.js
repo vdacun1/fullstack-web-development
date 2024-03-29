@@ -32,18 +32,15 @@ const metadata = () => {
   const stack = callsite();
   const frame = stack[2];
 
-  if (!frame) {
-    throw new Error(
-      "Logger.log was called from the top level of a file, which is not supported.",
-    );
-  }
+  const fileName = frame.getFileName() || "unknown";
+  const functionName = frame.getFunctionName() || "anonymous";
 
   return {
     service: "backend",
     environment: process.env.NODE_ENV,
     request_id: Session.getRequestId(),
-    file: path.basename(frame.getFileName()),
-    caller: frame.getFunctionName() || "anonymous",
+    file: path.basename(fileName, ".js"),
+    caller: functionName || "anonymous",
   };
 };
 

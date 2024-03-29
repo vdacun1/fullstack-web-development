@@ -1,5 +1,6 @@
 const winston = require("winston");
 const Logger = require("@src/infrastructure/Logger");
+let callsite = require("callsite");
 
 jest.mock("winston", () => ({
   createLogger: jest.fn().mockReturnValue({
