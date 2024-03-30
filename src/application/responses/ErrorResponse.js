@@ -14,10 +14,10 @@ const ErrorResponse = {
       .status(400)
       .send({ status: 400, message: "Validation error", errors: result });
   },
-  handleException: (res, error) => {
+  handleApiException: (res, apiError) => {
     return res
-      .status(error.status)
-      .send({ status: error.status, message: error.message });
+      .status(apiError.status)
+      .send({ status: apiError.status, message: apiError.message });
   },
 };
 

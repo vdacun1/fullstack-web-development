@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const CryptService = require("@src/domain/services/CryptService");
-const HttpStatus = require("@src/domain/constants/HttpStatus");
+const HttpStatus = require("@src/application/constants/HttpStatus");
 
 jest.mock("bcrypt");
 describe("CryptService", () => {

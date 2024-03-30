@@ -11,6 +11,6 @@ POST {{base_url}}/user/register
 Content-Type: application/json
 
 {
-  "email": "victor@victor.com",
+  "email": "victor@gmail.com",
   "password": "this_is_a_password"
 }

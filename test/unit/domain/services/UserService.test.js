@@ -1,7 +1,7 @@
 const UserService = require("@src/domain/services/UserService");
 
-const HttpStatus = require("@src/domain/constants/HttpStatus");
-const UserRepository = require("../../../../src/domain/repositories/UserRepository");
+const HttpStatus = require("@src/application/constants/HttpStatus");
+const UserRepository = require("@src/domain/repositories/UserRepository");
 
 jest.mock("@src/domain/repositories/UserRepository");
 
@@ -23,10 +23,7 @@ describe("UserService", () => {
       password: "password",
     });
 
-    expect(result).toEqual({
-      status: HttpStatus.CREATED,
-      message: "User registered successfully",
-    });
+    expect(result).toEqual({});
   });
 
   it("should throw an error if user already exists", async () => {
@@ -34,10 +31,7 @@ describe("UserService", () => {
 
     await expect(
       UserService.register({ email: "test@test.com", password: "password" }),
-    ).rejects.toEqual({
-      status: HttpStatus.CONFLICT,
-      message: "User already exists",
-    });
+    ).rejects.toEqual({ code: 11000 });
   });
 
   it("should throw an error if there is a server error", async () => {
@@ -45,9 +39,6 @@ describe("UserService", () => {
 
     await expect(
       UserService.register({ email: "test@test.com", password: "password" }),
-    ).rejects.toEqual({
-      status: HttpStatus.SERVER_ERROR,
-      message: "Error while registering user",
-    });
+    ).rejects.toEqual({ code: 500 });
   });
 });

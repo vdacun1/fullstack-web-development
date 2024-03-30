@@ -9,5 +9,6 @@ const PORT = process.env.PORT;
 mongoose.connect(MongoDB.getURI()).then(() =>
   app.listen(PORT, () => {
     console.info(`\n\tApp listening on: http://localhost:${PORT}/\n`);
+    console.info(`\tWatch logs on: http://localhost:3000/\n`);
   }),
 );

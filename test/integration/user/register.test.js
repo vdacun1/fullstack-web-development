@@ -11,7 +11,9 @@ describe("POST /user/register", () => {
 
     expect(response.statusCode).toBe(201);
     expect(response.body.status).toBe(201);
-    expect(response.body.message).toBe("User registered successfully");
+    expect(response.body.message).toBe(
+      "User registered successfully: user@gmail.com",
+    );
   });
 
   test("Should not create user due to conflict", async () => {

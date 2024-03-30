@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const HttpStatus = require("../constants/HttpStatus");
+const HttpStatus = require("../../application/constants/HttpStatus");
 
 const CryptService = {
   hash: async (data) => {
