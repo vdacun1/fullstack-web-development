@@ -10,12 +10,12 @@ const LoginUseCase = {
     try {
       const { email, password } = data;
 
-      const { password: hashedPassword } =
+      const { _id: user, password: hashedPassword } =
         await UserService.getUserByEmail(email);
 
       await CryptService.compare(password, hashedPassword);
 
-      const token = JWTService.sign({ email: email });
+      const token = JWTService.sign({ user });
 
       log.info(`User logged in: ${email}`);
       return res.status(HttpStatus.OK).send({
