@@ -1,39 +1,56 @@
-const { log } = require("@src/infrastructure/Logger");
+const winston = require("winston");
+const Logger = require("@src/infrastructure/Logger");
+let callsite = require("callsite");
 
-describe("Logger", () => {
+jest.mock("winston", () => ({
+  createLogger: jest.fn().mockReturnValue({
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+  }),
+  format: {
+    cli: jest.fn(),
+  },
+  transports: {
+    Console: jest.fn(),
+  },
+}));
+
+jest.mock("@src/infrastructure/Context", () => ({
+  getRequestId: jest.fn(),
+}));
+
+describe("Logger class", () => {
+  let logger;
+
   beforeEach(() => {
-    console.info = jest.fn();
-    console.warn = jest.fn();
-    console.error = jest.fn();
-    console.log = jest.fn();
+    logger = Logger.log;
   });
 
   test("should log info messages", () => {
-    const message = "info message";
-    log.info(message);
-    expect(console.info).toHaveBeenCalledWith(expect.stringContaining(message));
-  });
-
-  test("should log warning messages", () => {
-    const message = "warning message";
-    log.warn(message);
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining(message));
-  });
-
-  test("should log error messages", () => {
-    const error = new Error("error message");
-    log.error(error);
-    expect(console.error).toHaveBeenCalledWith(
-      expect.stringContaining(error.message),
+    const message = "Test info message";
+    logger.info(message);
+    expect(winston.createLogger().info).toHaveBeenCalledWith(
+      message,
+      expect.any(Object),
     );
   });
 
-  test("should log exceptions", () => {
-    const error = new Error("exception message");
-    log.exception(error);
-    expect(console.log).toHaveBeenCalledWith(
-      expect.stringContaining(error.message),
-      expect.stringContaining("Stack trace"),
+  test("should log warn messages", () => {
+    const message = "Test warn message";
+    logger.warn(message);
+    expect(winston.createLogger().warn).toHaveBeenCalledWith(
+      message,
+      expect.any(Object),
+    );
+  });
+
+  test("should log error messages", () => {
+    const message = "Test error message";
+    logger.error(message);
+    expect(winston.createLogger().error).toHaveBeenCalledWith(
+      message,
+      expect.any(Object),
     );
   });
 });

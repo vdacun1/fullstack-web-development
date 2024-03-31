@@ -1,0 +1,357 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Panel",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "elasticsearch"
+      },
+      "id": 123124,
+      "targets": [
+        {
+          "datasource": {
+            "type": "elasticsearch"
+          },
+          "refId": "A",
+          "query": "",
+          "alias": "",
+          "metrics": [
+            {
+              "type": "count",
+              "id": "1"
+            }
+          ],
+          "bucketAggs": [
+            {
+              "type": "date_histogram",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "field": "@timestamp"
+            }
+          ],
+          "timeField": "@timestamp"
+        }
+      ],
+      "options": {
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "showLegend": false,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "lineInterpolation": "linear",
+            "barAlignment": 0,
+            "lineWidth": 2,
+            "fillOpacity": 18,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "insertNulls": false,
+            "showPoints": "auto",
+            "pointSize": 4,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisColorMode": "text",
+            "axisBorderShow": false,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "axisCenteredZero": false,
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "error": {
+                  "color": "red",
+                  "index": 0
+                },
+                "info": {
+                  "color": "blue",
+                  "index": 2
+                },
+                "warn": {
+                  "color": "yellow",
+                  "index": 1
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fields.@timestamp"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "@timestamp"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fields.service"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "service"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fields.error.type"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "error type"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fields.log.level"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "log level"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fields.request_id"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "request_id"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fields.caller"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "caller"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fields.file"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "file"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.4.1",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "elasticsearch"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "limit": "500"
+              },
+              "type": "logs"
+            }
+          ],
+          "query": "",
+          "refId": "A",
+          "timeField": "fields.@timestamp"
+        }
+      ],
+      "title": "Logs",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "includeByName": {
+              "fields.@timestamp": true,
+              "fields.caller": true,
+              "fields.error.type": true,
+              "fields.file": true,
+              "fields.log.level": true,
+              "fields.request_id": true,
+              "fields.service": true,
+              "message": true
+            },
+            "indexByName": {
+              "fields.@timestamp": 0,
+              "fields.caller": 4,
+              "fields.error.type": 8,
+              "fields.file": 3,
+              "fields.log.level": 2,
+              "fields.request_id": 6,
+              "fields.service": 1,
+              "message": 5
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Logs",
+  "version": 1,
+  "weekStart": ""
+}

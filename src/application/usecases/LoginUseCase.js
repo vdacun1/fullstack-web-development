@@ -1,20 +1,35 @@
-const jwt = require("jsonwebtoken");
+const HttpStatus = require("../constants/HttpStatus");
+const UserService = require("../../domain/services/UserService");
+const CryptService = require("../../domain/services/CryptService");
+const JWTService = require("../../domain/services/JWTService");
+const ErrorResponse = require("../responses/ErrorResponse");
+const { log } = require("../../infrastructure/Logger");
 
-require("dotenv").config();
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const LoginUseCase = {
+  handle: async (res, data) => {
+    try {
+      const { email, password } = data;
 
-const LoginUseCase = (loginRequest) => {
-  if (loginRequest.username === "admin" && loginRequest.password === "admin") {
-    return {
-      status: 200,
-      message: "Login success",
-      data: {
-        token: jwt.sign({ username: loginRequest.username }, JWT_SECRET_KEY, {
-          expiresIn: "1h",
-        }),
-      },
-    };
-  }
+      const { _id: user, password: hashedPassword } =
+        await UserService.getUserByEmail(email);
+
+      await CryptService.compare(password, hashedPassword);
+
+      const token = JWTService.sign({ user });
+
+      log.info(`User logged in: ${email}`);
+      return res.status(HttpStatus.OK).send({
+        status: HttpStatus.OK,
+        message: "Login success",
+        token,
+      });
+    } catch (error) {
+      return ErrorResponse.handleApiException(res, {
+        status: HttpStatus.UNAUTHORIZED,
+        message: "Wrong email or password",
+      });
+    }
+  },
 };
 
 module.exports = LoginUseCase;

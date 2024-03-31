@@ -1,48 +1,58 @@
+const winston = require("winston");
 const path = require("path");
+const callsite = require("callsite");
+
+const { ecsFormat } = require("@elastic/ecs-winston-format");
+const { ElasticsearchTransport } = require("winston-elasticsearch");
+const dotenv = require("dotenv");
+
+const Context = require("./Context");
+
+dotenv.config();
+
+const esTransport = new ElasticsearchTransport({
+  level: "info",
+  index: "backend",
+  indexPrefix: "node-api-",
+  clientOpts: {
+    node: process.env.ELASTICSEARCH_URI,
+  },
+});
+
+const consoleTransport = new winston.transports.Console({
+  format: winston.format.cli(),
+});
+
+let logger = winston.createLogger({
+  format: ecsFormat(),
+  transports: [esTransport, consoleTransport],
+});
+
+const metadata = () => {
+  const stack = callsite();
+  const frame = stack[2];
+
+  return {
+    service: "backend",
+    environment: process.env.NODE_ENV,
+    request_id: Context.getRequestId(),
+    file: path.basename(frame.getFileName(), ".js"),
+    caller: frame.getFunctionName(),
+  };
+};
 
 const Logger = {
   log: {
     info: (message) => {
-      console.info(colorize.green(message));
+      logger.info(message, metadata());
     },
-
     warn: (message) => {
-      console.warn(colorize.yellow(message));
+      logger.warn(message, metadata());
     },
-
-    error: (error) => {
-      console.error(colorize.red(error.message));
-    },
-
-    exception: (error) => {
-      console.log(colorize.red(error.message), colorize.blue(error.stack));
+    error: (message) => {
+      logger.error(message, metadata());
     },
   },
-};
-
-const colorize = {
-  green: (message) => `\x1b[92m${message}\x1b[0m`,
-  yellow: (message) => `\x1b[93m${message}\x1b[0m`,
-  red: (message) => `\x1b[91m${message}\x1b[0m`,
-  blue: (stack) => {
-    const relativeStack = getRelativeStack(stack);
-    return `\nStack trace: >>>>>>>>>>\n\t\x1b[94m${relativeStack}\x1b[0m\n<<<<<<<<<<`;
-  },
-};
-
-const getRelativeStack = (stack) => {
-  const cwd = process.cwd();
-  const lines = stack.split("\n");
-  const relativeLines = lines.map((line) => {
-    const match = line.match(/\((.*):\d+:\d+\)/);
-    if (match) {
-      const absolutePath = match[1];
-      const relativePath = path.relative(cwd, absolutePath);
-      return line.replace(absolutePath, relativePath);
-    }
-    return line;
-  });
-  return relativeLines.join("\n\t");
 };
 
 module.exports = Logger;

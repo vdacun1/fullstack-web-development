@@ -1,23 +1,16 @@
-const { body, validationResult } = require("express-validator");
+const { matchedData, validationResult } = require("express-validator");
+
 const ErrorResponse = require("../responses/ErrorResponse");
-const { log } = require("../../infrastructure/Logger");
+const UserValidation = require("../validations/UserValidation");
+const LoginUseCase = require("../usecases/LoginUseCase");
 
 const LoginRequest = {
-  validate: () => [
-    body("email")
-      .isEmail()
-      .isLength({ min: 5, max: 255 })
-      .trim()
-      .normalizeEmail()
-      .escape(),
-    body("password").isString().isLength({ min: 6, max: 20 }),
-  ],
+  validate: () => [UserValidation.email(), UserValidation.password()],
 
   handle: async (req, res) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
-      log.info("Login successfully");
-      return await res.status(200).send("Login successfully");
+      return await LoginUseCase.handle(res, matchedData(req));
     }
 
     return await ErrorResponse.handleValidation(res, result.array());

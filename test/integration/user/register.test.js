@@ -9,10 +9,11 @@ describe("POST /user/register", () => {
       password: "password",
     });
 
-    console.log(response.body);
     expect(response.statusCode).toBe(201);
     expect(response.body.status).toBe(201);
-    expect(response.body.message).toBe("User registered successfully");
+    expect(response.body.message).toBe(
+      "User registered successfully: user@gmail.com",
+    );
   });
 
   test("Should not create user due to conflict", async () => {

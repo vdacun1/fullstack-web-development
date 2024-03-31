@@ -1,12 +1,3 @@
----
-name: Pull Request
-about: Use this template for all Pull Requests.
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## Description
 
 Please include a summary of the changes and which issue is fixed. Please also include relevant motivation and context.

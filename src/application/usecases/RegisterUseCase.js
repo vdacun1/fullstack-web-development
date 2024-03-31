@@ -1,17 +1,41 @@
 const UserService = require("../../domain/services/UserService");
+const CryptService = require("../../domain/services/CryptService");
 const ErrorResponse = require("../responses/ErrorResponse");
+const HttpStatus = require("../constants/HttpStatus");
+const { log } = require("../../infrastructure/Logger");
 
 const RegisterUseCase = {
   handle: async (res, data) => {
-    const { email, password } = data;
+    try {
+      const { email, password } = data;
+      const hashedPassword = await CryptService.hash(password);
 
-    UserService.register({ email, password })
-      .then((user) => {
-        return res.status(201).send(user);
-      })
-      .catch((error) => {
-        return ErrorResponse.handleException(res, error);
+      const user = await UserService.register({
+        email,
+        password: hashedPassword,
       });
+
+      const message = `User registered successfully: ${email}`;
+      log.info(message);
+      return res.status(HttpStatus.CREATED).send({
+        status: HttpStatus.CREATED,
+        message,
+      });
+    } catch (error) {
+      log.error(error);
+
+      if (error.code === 11000) {
+        return ErrorResponse.handleApiException(res, {
+          status: HttpStatus.CONFLICT,
+          message: "User already exists",
+        });
+      } else {
+        return ErrorResponse.handleApiException(res, {
+          status: HttpStatus.SERVER_ERROR,
+          message: "Error while registering user",
+        });
+      }
+    }
   },
 };
 

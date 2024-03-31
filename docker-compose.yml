@@ -11,6 +11,8 @@ services:
       - MONGODB_USERNAME=test_user
       - MONGODB_PASSWORD=test_password
       - MONGODB_DATABASE=test
+    networks:
+      - backend-network
 
   mongo-express:
     image: mongo-express:latest
@@ -21,3 +23,45 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    networks:
+      - backend-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+    ports:
+      - "9200:9200"
+    networks:
+      - backend-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      - ./dashboard.json:/usr/share/grafana/public/dashboards/home.json
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+    networks:
+      - backend-network
+
+  redis:
+    image: redis:latest
+    command: /bin/sh -c "redis-server --requirepass redis_password"
+    ports:
+      - "6379:6379"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge

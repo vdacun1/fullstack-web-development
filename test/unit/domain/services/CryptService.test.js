@@ -1,35 +1,33 @@
 const bcrypt = require("bcrypt");
 const CryptService = require("@src/domain/services/CryptService");
-const HttpStatus = require("@src/domain/constants/HttpStatus");
 
-jest.mock("bcrypt");
 describe("CryptService", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  describe("hash", () => {
+    it("should return a hashed string", async () => {
+      const data = "myData";
+      const hashedData = await CryptService.hash(data);
+
+      expect(hashedData).not.toEqual(data);
+      expect(await bcrypt.compare(data, hashedData)).toBe(true);
+    });
   });
 
-  describe("hash", () => {
-    it("should return hashed data when bcrypt.hash is successful", async () => {
-      const data = "testData";
-      const hashedData = "hashedData";
-      bcrypt.hash.mockResolvedValue(hashedData);
+  describe("compare", () => {
+    it("should return true if data matches the hash", async () => {
+      const data = "myData";
+      const hashedData = await CryptService.hash(data);
+      const isMatch = await CryptService.compare(data, hashedData);
 
-      const result = await CryptService.hash(data);
-
-      expect(result).toEqual(hashedData);
-      expect(bcrypt.hash).toHaveBeenCalledWith(data, 10);
+      expect(isMatch).toBe(true);
     });
 
-    it("should throw an error when bcrypt.hash fails", async () => {
-      const data = "testData";
-      const error = new Error("bcrypt error");
-      bcrypt.hash.mockRejectedValue(error);
+    it("should throw an error if data does not match the hash", async () => {
+      const data = "myData";
+      const hashedData = await CryptService.hash("otherData");
 
-      await expect(CryptService.hash(data)).rejects.toEqual({
-        status: HttpStatus.SERVER_ERROR,
-        message: "Error while hashing password",
-      });
-      expect(bcrypt.hash).toHaveBeenCalledWith(data, 10);
+      await expect(CryptService.compare(data, hashedData)).rejects.toThrow(
+        "Values do not match",
+      );
     });
   });
 });

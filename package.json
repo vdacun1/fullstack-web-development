@@ -3,19 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "node src/server.js",
     "run & debug": "nodemon src/server.js",
     "test-coverage": "jest --coverage",
     "test": "jest"
   },
   "dependencies": {
+    "@elastic/ecs-winston-format": "^1.5.3",
     "bcrypt": "^5.1.1",
+    "callsite": "^1.0.0",
+    "cls-hooked": "^4.2.2",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "redis": "^4.6.13",
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0",
+    "winston-elasticsearch": "^0.18.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
