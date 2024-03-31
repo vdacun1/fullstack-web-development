@@ -20,6 +20,22 @@ describe("POST /auth/login", () => {
     expect(response.body.token).not.toBeNull();
   });
 
+  test("Should return error - Wrong password", async () => {
+    await request(app).post("/user/register").send({
+      email: "c282no@v98q2tz.com",
+      password: "password",
+    });
+
+    const response = await request(app).post("/auth/login").send({
+      email: "c282no@v98q2tz.com",
+      password: "password1",
+    });
+
+    expect(response.statusCode).toBe(401);
+    expect(response.body.status).toBe(401);
+    expect(response.body.message).toBe("Wrong email or password");
+  });
+
   test("Should return error - User not found", async () => {
     const response = await request(app).post("/auth/login").send({
       email: "invalidemail@invalidserver.com",

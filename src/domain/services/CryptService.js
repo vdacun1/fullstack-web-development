@@ -13,7 +13,12 @@ const CryptService = {
   },
 
   compare: async (data, hash) => {
-    return await bcrypt.compare(data, hash);
+    const isMatch = await bcrypt.compare(data, hash);
+
+    if (!isMatch) {
+      throw new Error("Values do not match");
+    }
+    return isMatch;
   },
 };
 
