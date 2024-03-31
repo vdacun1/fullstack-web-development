@@ -1,8 +1,8 @@
 const UserService = require("../../domain/services/UserService");
 const CryptService = require("../../domain/services/CryptService");
 const ErrorResponse = require("../responses/ErrorResponse");
-const { log } = require("../../infrastructure/Logger");
 const HttpStatus = require("../constants/HttpStatus");
+const { log } = require("../../infrastructure/Logger");
 
 const RegisterUseCase = {
   handle: async (res, data) => {
@@ -16,7 +16,6 @@ const RegisterUseCase = {
       });
 
       const message = `User registered successfully: ${email}`;
-
       log.info(message);
       return res.status(HttpStatus.CREATED).send({
         status: HttpStatus.CREATED,

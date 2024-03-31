@@ -16,7 +16,7 @@ jest.mock("winston", () => ({
   },
 }));
 
-jest.mock("@src/infrastructure/Session", () => ({
+jest.mock("@src/infrastructure/Context", () => ({
   getRequestId: jest.fn(),
 }));
 

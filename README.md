@@ -14,7 +14,7 @@ Para ejecutar el proyecto, se debe instalar las dependencias con el siguiente co
 npm install
 ```
 
-Luego, se debe ejecutar el siguiente comando para iniciar el servidor de MongoDB y Redis:
+Luego, se debe ejecutar el siguiente comando para iniciar el servidor de MongoDB y RedisCache:
 
 ```
 docker-compose up

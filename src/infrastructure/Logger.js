@@ -6,7 +6,7 @@ const { ecsFormat } = require("@elastic/ecs-winston-format");
 const { ElasticsearchTransport } = require("winston-elasticsearch");
 const dotenv = require("dotenv");
 
-const Session = require("./Session");
+const Context = require("./Context");
 
 dotenv.config();
 
@@ -35,7 +35,7 @@ const metadata = () => {
   return {
     service: "backend",
     environment: process.env.NODE_ENV,
-    request_id: Session.getRequestId(),
+    request_id: Context.getRequestId(),
     file: path.basename(frame.getFileName(), ".js"),
     caller: frame.getFunctionName(),
   };

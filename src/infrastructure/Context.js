@@ -2,9 +2,8 @@ const cls = require("cls-hooked");
 const uuid = require("uuid");
 
 const namespace = cls.createNamespace("app");
-console.log("Session:", "Namespace created");
-const Session = {
-  setContext: (req, res, next) => {
+const Context = {
+  create: (req, res, next) => {
     namespace.run(() => {
       const requestId = uuid.v4();
       namespace.set("requestId", requestId);
@@ -18,4 +17,4 @@ const Session = {
   },
 };
 
-module.exports = Session;
+module.exports = Context;

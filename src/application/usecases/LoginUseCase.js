@@ -1,12 +1,9 @@
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
 const HttpStatus = require("../constants/HttpStatus");
 const UserService = require("../../domain/services/UserService");
 const CryptService = require("../../domain/services/CryptService");
-const ErrorResponse = require("@src/application/responses/ErrorResponse");
-
-dotenv.config();
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const JWTService = require("../../domain/services/JWTService");
+const ErrorResponse = require("../responses/ErrorResponse");
+const { log } = require("../../infrastructure/Logger");
 
 const LoginUseCase = {
   handle: async (res, data) => {
@@ -18,10 +15,9 @@ const LoginUseCase = {
 
       await CryptService.compare(password, hashedPassword);
 
-      const token = jwt.sign({ email: email }, JWT_SECRET_KEY, {
-        expiresIn: "1h",
-      });
+      const token = JWTService.sign({ email: email });
 
+      log.info(`User logged in: ${email}`);
       return res.status(HttpStatus.OK).send({
         status: HttpStatus.OK,
         message: "Login success",
