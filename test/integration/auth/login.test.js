@@ -4,13 +4,31 @@ const app = require("@src/app");
 
 describe("POST /auth/login", () => {
   test("Should login successfully", async () => {
+    await request(app).post("/user/register").send({
+      email: "2c938y13o2@v98q2ty.com",
+      password: "password",
+    });
+
     const response = await request(app).post("/auth/login").send({
-      email: "user@email.com",
+      email: "2c938y13o2@v98q2ty.com",
       password: "password",
     });
 
     expect(response.statusCode).toBe(200);
-    expect(response.text).toBe("Login successfully");
+    expect(response.body.status).toBe(200);
+    expect(response.body.message).toBe("Login success");
+    expect(response.body.token).not.toBeNull();
+  });
+
+  test("Should return error - User not found", async () => {
+    const response = await request(app).post("/auth/login").send({
+      email: "invalidemail@invalidserver.com",
+      password: "password",
+    });
+
+    expect(response.statusCode).toBe(401);
+    expect(response.body.status).toBe(401);
+    expect(response.body.message).toBe("Wrong email or password");
   });
 
   test("Should return validation error - Email invalid value", async () => {

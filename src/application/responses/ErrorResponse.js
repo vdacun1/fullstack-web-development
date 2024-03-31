@@ -8,8 +8,7 @@ const ErrorResponse = {
       result[error.path] = error.msg;
     });
 
-    log.error("Validation error");
-
+    log.error(JSON.stringify({ message: "Validation error", errors: result }));
     return res
       .status(400)
       .send({ status: 400, message: "Validation error", errors: result });

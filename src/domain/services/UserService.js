@@ -1,14 +1,14 @@
-const CryptService = require("./CryptService");
-
 const UserRepository = require("../repositories/UserRepository");
 
 const UserService = {
   register: async ({ email, password }) => {
     const userRepository = UserRepository();
+    return await userRepository.create({ email, password });
+  },
 
-    const hashedPassword = await CryptService.hash(password);
-
-    return await userRepository.create({ email, password: hashedPassword });
+  getUserByEmail: async (email) => {
+    const userRepository = UserRepository();
+    return userRepository.findOne({ email }).select("+password");
   },
 };
 
