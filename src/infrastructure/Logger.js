@@ -1,21 +1,20 @@
 const winston = require("winston");
 const path = require("path");
 const callsite = require("callsite");
+const morgan = require("morgan");
 
 const { ecsFormat } = require("@elastic/ecs-winston-format");
 const { ElasticsearchTransport } = require("winston-elasticsearch");
-const dotenv = require("dotenv");
 
 const Context = require("./Context");
-
-dotenv.config();
+const Config = require("./Config");
 
 const esTransport = new ElasticsearchTransport({
   level: "info",
   index: "backend",
   indexPrefix: "node-api-",
   clientOpts: {
-    node: process.env.ELASTICSEARCH_URI,
+    node: Config.elasticsearch.uri,
   },
 });
 
@@ -34,7 +33,7 @@ const metadata = () => {
 
   return {
     service: "backend",
-    environment: process.env.NODE_ENV,
+    environment: Config.scope,
     request_id: Context.getRequestId(),
     file: path.basename(frame.getFileName(), ".js"),
     caller: frame.getFunctionName(),
@@ -53,6 +52,14 @@ const Logger = {
       logger.error(message, metadata());
     },
   },
+
+  morgan: morgan(Config.morgan, {
+    stream: {
+      write: (message) => {
+        logger.info(message, metadata());
+      },
+    },
+  }),
 };
 
 module.exports = Logger;
