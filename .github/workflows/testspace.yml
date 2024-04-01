@@ -14,12 +14,11 @@ jobs:
           node-version: '20.x'
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm run test-coverage
+      - run: npm run test-reporters
 
       - name: Use Testspace
         uses: testspace-com/setup-testspace@v1
         with:
           token: ${{ secrets.TESTSPACE_TOKEN }}
           domain: vdacun1.testspace.com
-          path: ./coverage/clover.xml
-          flags: coverage
+        run: testspace "./junit.xml"
