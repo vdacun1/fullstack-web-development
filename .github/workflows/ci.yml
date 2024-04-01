@@ -29,4 +29,4 @@ jobs:
         with:
           token: ${{ secrets.TESTSPACE_TOKEN }}
           domain: vdacun1.testspace.com
-      - run: testspace ./junit.xml ./coverage/lcov.info
+      - run: testspace ./junit.xml ./coverage/clover.xml
