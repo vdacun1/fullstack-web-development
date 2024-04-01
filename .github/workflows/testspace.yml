@@ -21,4 +21,4 @@ jobs:
         with:
           token: ${{ secrets.TESTSPACE_TOKEN }}
           domain: vdacun1.testspace.com
-        run: testspace ./junit.xml
+      - run: testspace ./junit.xml
