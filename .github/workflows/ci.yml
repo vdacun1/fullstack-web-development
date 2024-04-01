@@ -22,3 +22,12 @@ jobs:
           flag-name: coverage
           github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
           path-to-lcov: ./coverage/lcov.info
+
+      - name: Use Testspace
+        uses: testspace-com/setup-testspace@v1
+        with:
+          domain: vdacun1.testspace.com
+          token: ${{ secrets.TESTSPACE_TOKEN }}
+      - run: testspace ./coverage/clover.xml
+
+
