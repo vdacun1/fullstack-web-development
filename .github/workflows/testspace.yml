@@ -21,5 +21,5 @@ jobs:
         with:
           token: ${{ secrets.TESTSPACE_TOKEN }}
           domain: vdacun1.testspace.com
-          path: ./coverage/lcov.info
+          path: ./coverage/clover.xml
           flags: coverage
