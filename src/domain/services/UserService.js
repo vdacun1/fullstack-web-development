@@ -1,4 +1,4 @@
-const UserRepository = require("../repositories/UserRepository");
+const UserRepository = require('../repositories/UserRepository');
 
 const UserService = {
   register: async ({ email, password }) => {
@@ -8,7 +8,7 @@ const UserService = {
 
   getUserByEmail: async (email) => {
     const userRepository = UserRepository();
-    return userRepository.findOne({ email }).select("+password");
+    return userRepository.findOne({ email }).select('+password');
   },
 };
 

@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
 const AccessorySchema = new Schema({
   name: {
@@ -11,13 +11,13 @@ const AccessorySchema = new Schema({
   },
   picture: {
     type: String,
-    default: "",
+    default: '',
     maxLength: 1024 * 100,
   },
   picture_type: {
     type: String,
-    default: "svg",
-    enum: ["svg"],
+    default: 'svg',
+    enum: ['svg'],
   },
 });
 

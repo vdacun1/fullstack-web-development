@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 
 const CryptService = {
   hash: async (data) => {
@@ -16,7 +16,7 @@ const CryptService = {
     const isMatch = await bcrypt.compare(data, hash);
 
     if (!isMatch) {
-      throw new Error("Values do not match");
+      throw new Error('Values do not match');
     }
     return isMatch;
   },

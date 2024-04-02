@@ -1,7 +1,6 @@
-const redis = require("redis");
+const redis = require('redis');
 
-const { log } = require("./Logger");
-const Config = require("./Config");
+const Config = require('./Config');
 
 let redisClient = null;
 

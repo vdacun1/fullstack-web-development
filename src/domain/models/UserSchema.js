@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
 const UserSchema = new Schema({
   name: {
@@ -7,14 +7,14 @@ const UserSchema = new Schema({
   },
   picture: {
     type: String,
-    default: "",
+    default: '',
     maxLength: 1024 * 100,
     select: false,
   },
   picture_type: {
     type: String,
-    default: "svg",
-    enum: ["svg", "png", "jpg", "jpeg"],
+    default: 'svg',
+    enum: ['svg', 'png', 'jpg', 'jpeg'],
     select: false,
   },
   email: {

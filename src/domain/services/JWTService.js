@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const Config = require("../../infrastructure/Config");
+const jwt = require('jsonwebtoken');
+const Config = require('../../infrastructure/Config');
 
 const JWT_SECRET_KEY = Config.jwt.secretKey;
 const JWT_EXPIRATION = Config.jwt.expiration;
