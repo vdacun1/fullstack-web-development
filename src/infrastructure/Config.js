@@ -26,6 +26,7 @@ const Config = {
     password: process.env.REDIS_PASSWORD,
   },
   morgan: process.env.MORGAN_FORMAT,
+  page_size: process.env.PAGE_SIZE,
 };
 
 module.exports = Config;

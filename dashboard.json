@@ -326,13 +326,13 @@
             },
             "indexByName": {
               "fields.@timestamp": 0,
-              "fields.caller": 4,
-              "fields.error.type": 8,
-              "fields.file": 3,
-              "fields.log.level": 2,
-              "fields.request_id": 6,
+              "fields.caller": 5,
+              "fields.error.type": 7,
+              "fields.file": 4,
+              "fields.log.level": 3,
+              "fields.request_id": 2,
               "fields.service": 1,
-              "message": 5
+              "message": 6
             }
           }
         }

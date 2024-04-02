@@ -8,7 +8,7 @@ const UserService = {
 
   getUserByEmail: async (email) => {
     const userRepository = UserRepository();
-    return userRepository.findOne({ email }).select('+password');
+    return userRepository.getPasswordByEmail(email);
   },
 };
 

@@ -10,7 +10,7 @@ const RegisterUseCase = {
       const { email, password } = data;
       const hashedPassword = await CryptService.hash(password);
 
-      const user = await UserService.register({
+      await UserService.register({
         email,
         password: hashedPassword,
       });
