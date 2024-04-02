@@ -1,25 +1,24 @@
-const mongoose = require("mongoose");
+const app = require('./app');
+const MongoDB = require('./infrastructure/MongoDB');
+const RedisCache = require('./infrastructure/RedisCache');
+const Config = require('./infrastructure/Config');
+const { log } = require('./infrastructure/Logger');
 
-const app = require("./app");
-const MongoDB = require("./infrastructure/MongoDB");
-const RedisCache = require("./infrastructure/RedisCache");
-const { log } = require("./infrastructure/Logger");
-const dotenv = require("dotenv");
-
-dotenv.config();
-const PORT = process.env.PORT;
+const PORT = Config.port;
 
 log.info(`Starting server on port ${PORT}`);
-mongoose.connect(MongoDB.getURI()).then(() => {
-  log.info("Connected to MongoDB");
+log.info('Connecting to MongoDB');
+MongoDB.connect().then(() => {
+  log.info('Connected to MongoDB');
 
+  log.info('Connecting to Redis');
   RedisCache.connect().then(() => {
-    log.info("Connected to Redis");
-    
+    log.info('Connected to Redis');
+
     app.listen(PORT, () => {
-      console.info(`\n\tNODEJS  - App listening on: http://localhost:${PORT}/`);
-      console.info(`\tMONGODB - Database client on: http://localhost:8081/`);
-      console.info(`\tGRAFANA - Watch logs on: http://localhost:3000/`);
+      log.info(`NODEJS  - App listening on: http://localhost:${PORT}/`);
+      log.info(`MONGODB - Database client on: http://localhost:8081/`);
+      log.info(`GRAFANA - Watch logs on: http://localhost:3000/`);
     });
   });
 });

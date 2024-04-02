@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 let server;
 

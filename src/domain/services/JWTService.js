@@ -1,9 +1,8 @@
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+const jwt = require('jsonwebtoken');
+const Config = require('../../infrastructure/Config');
 
-dotenv.config();
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
-const JWT_EXPIRATION = process.env.JWT_EXPIRATION;
+const JWT_SECRET_KEY = Config.jwt.secretKey;
+const JWT_EXPIRATION = Config.jwt.expiration;
 
 const JWTService = {
   sign: (payload) => {

@@ -1,14 +1,17 @@
-const dotenv = require("dotenv");
+const Config = require('../infrastructure/Config');
+const mongoose = require('mongoose');
+
+const getMongoUri = () => {
+  const auth = `${Config.mongo.user}:${Config.mongo.password}`;
+  const host = `${Config.mongo.host}:${Config.mongo.port}`;
+  const database = Config.mongo.db;
+
+  return `mongodb://${auth}@${host}/${database}`;
+};
 
 const MongoDB = {
-  getURI: () => {
-    dotenv.config();
-
-    const auth = `${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}`;
-    const host = `${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`;
-    const database = process.env.MONGO_DB;
-
-    return `mongodb://${auth}@${host}/${database}`;
+  connect: async () => {
+    return await mongoose.connect(getMongoUri());
   },
 };
 

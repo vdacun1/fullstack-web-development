@@ -1,8 +1,8 @@
-const { matchedData, validationResult } = require("express-validator");
+const { matchedData, validationResult } = require('express-validator');
 
-const ErrorResponse = require("../responses/ErrorResponse");
-const UserValidation = require("../validations/UserValidation");
-const LoginUseCase = require("../usecases/LoginUseCase");
+const ErrorResponse = require('../responses/ErrorResponse');
+const UserValidation = require('../validations/UserValidation');
+const LoginUseCase = require('../usecases/LoginUseCase');
 
 const LoginRequest = {
   validate: () => [UserValidation.email(), UserValidation.password()],

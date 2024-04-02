@@ -16,3 +16,7 @@
 
 # test
 /coverage
+junit.xml
+
+# build
+/dist

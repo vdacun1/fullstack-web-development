@@ -1,8 +1,8 @@
-const UserService = require("../../domain/services/UserService");
-const CryptService = require("../../domain/services/CryptService");
-const ErrorResponse = require("../responses/ErrorResponse");
-const HttpStatus = require("../constants/HttpStatus");
-const { log } = require("../../infrastructure/Logger");
+const UserService = require('../../domain/services/UserService');
+const CryptService = require('../../domain/services/CryptService');
+const ErrorResponse = require('../responses/ErrorResponse');
+const HttpStatus = require('../constants/HttpStatus');
+const { log } = require('../../infrastructure/Logger');
 
 const RegisterUseCase = {
   handle: async (res, data) => {
@@ -10,7 +10,7 @@ const RegisterUseCase = {
       const { email, password } = data;
       const hashedPassword = await CryptService.hash(password);
 
-      const user = await UserService.register({
+      await UserService.register({
         email,
         password: hashedPassword,
       });
@@ -27,12 +27,12 @@ const RegisterUseCase = {
       if (error.code === 11000) {
         return ErrorResponse.handleApiException(res, {
           status: HttpStatus.CONFLICT,
-          message: "User already exists",
+          message: 'User already exists',
         });
       } else {
         return ErrorResponse.handleApiException(res, {
           status: HttpStatus.SERVER_ERROR,
-          message: "Error while registering user",
+          message: 'Error while registering user',
         });
       }
     }
