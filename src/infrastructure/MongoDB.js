@@ -13,6 +13,36 @@ const MongoDB = {
   connect: async () => {
     return await mongoose.connect(getMongoUri());
   },
+
+  initialize: async () => {
+    const ToySchema = require('../domain/models/ToySchema');
+    const ColorSchema = require('../domain/models/ColorSchema');
+    const AccessorySchema = require('../domain/models/AccessorySchema');
+
+    const ToyModel = mongoose.model('Toy', ToySchema);
+    const ColorModel = mongoose.model('Color', ColorSchema);
+    const AccessoryModel = mongoose.model('Accessory', AccessorySchema);
+
+    await ToyModel.create([
+      { name: 'perro' },
+      { name: 'conejo' },
+      { name: 'oso' },
+      { name: 'mapache' },
+      { name: 'gato' },
+    ]);
+
+    await ColorModel.create([
+      { name: 'rosa' },
+      { name: 'verde' },
+      { name: 'amarillo' },
+    ]);
+
+    await AccessoryModel.create([
+      { name: 'camiseta y pelota de fútbol' },
+      { name: 'guitarra eléctrica' },
+      { name: 'notebook' },
+    ]);
+  },
 };
 
 module.exports = MongoDB;

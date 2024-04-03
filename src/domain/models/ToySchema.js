@@ -4,6 +4,8 @@ const ToySchema = new Schema({
   name: {
     type: String,
     maxLength: 50,
+    required: true,
+    unique: true,
   },
   description: {
     type: String,
@@ -22,6 +24,7 @@ const ToySchema = new Schema({
   price: {
     type: Number,
     min: 0,
+    default: 0,
   },
 });
 

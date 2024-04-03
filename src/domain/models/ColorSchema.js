@@ -4,6 +4,8 @@ const ColorSchema = new Schema({
   name: {
     type: String,
     maxLength: 50,
+    required: true,
+    unique: true,
   },
   hex: {
     type: String,

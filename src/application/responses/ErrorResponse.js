@@ -1,3 +1,4 @@
+const HttpStatus = require('../constants/HttpStatus');
 const { log } = require('../../infrastructure/Logger');
 
 const ErrorResponse = {
@@ -9,14 +10,23 @@ const ErrorResponse = {
     });
 
     log.error(JSON.stringify({ message: 'Validation error', errors: result }));
-    return res
-      .status(400)
-      .send({ status: 400, message: 'Validation error', errors: result });
+    return res.status(HttpStatus.BAD_REQUEST).send({
+      status: HttpStatus.BAD_REQUEST,
+      message: 'Validation error',
+      errors: result,
+    });
   },
   handleApiException: (res, apiError) => {
+    return res.status(apiError.status).send({
+      status: apiError.status,
+      message: apiError.message,
+      errors: apiError.errors || undefined,
+    });
+  },
+  handleAuthException: (res) => {
     return res
-      .status(apiError.status)
-      .send({ status: apiError.status, message: apiError.message });
+      .status(HttpStatus.UNAUTHORIZED)
+      .send({ status: HttpStatus.UNAUTHORIZED, message: 'Unauthorized' });
   },
 };
 

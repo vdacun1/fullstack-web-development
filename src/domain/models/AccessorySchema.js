@@ -4,6 +4,8 @@ const AccessorySchema = new Schema({
   name: {
     type: String,
     maxLength: 50,
+    required: true,
+    unique: true,
   },
   description: {
     type: String,
