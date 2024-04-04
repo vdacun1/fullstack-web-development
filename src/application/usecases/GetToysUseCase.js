@@ -4,7 +4,7 @@ const ErrorResponse = require('../responses/ErrorResponse');
 const { log } = require('../../infrastructure/Logger');
 
 const GetToysUseCase = {
-  handle: async (res) => {
+  handle: async (req, res) => {
     try {
       const toys = await ToyService.list();
       return res.status(HttpStatus.OK).send(toys);

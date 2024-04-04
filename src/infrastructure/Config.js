@@ -31,6 +31,8 @@ const Config = {
   limiter: rateLimit({
     windowMs: parseInt(process.env.LIMITER_WINDOW_MS),
     max: parseInt(process.env.LIMITER_WINDOW_MAX_REQUESTS),
+    standardHeaders: false,
+    legacyHeaders: false,
   }),
 };
 

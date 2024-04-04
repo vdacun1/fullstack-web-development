@@ -4,7 +4,7 @@ const ErrorResponse = require('../responses/ErrorResponse');
 const { log } = require('../../infrastructure/Logger');
 
 const GetAccessoriesUseCase = {
-  handle: async (res) => {
+  handle: async (req, res) => {
     try {
       const accessories = await AccessoryService.list();
       return res.status(HttpStatus.OK).send(accessories);

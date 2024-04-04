@@ -1,4 +1,5 @@
 const express = require('express');
+const HttpStatus = require('./application/constants/HttpStatus');
 
 // Morgan is a middleware for logging HTTP requests in console.
 const { morgan } = require('./infrastructure/Logger');
@@ -10,13 +11,13 @@ const helmet = require('helmet');
 const Context = require('./infrastructure/Context');
 
 const app = express();
-app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan);
 app.use(Context.create);
+app.use(morgan);
+app.use(helmet());
 
-app.use('/favicon.ico', (req, res) => res.status(204));
+app.use('/favicon.ico', (req, res) => res.status(HttpStatus.NO_CONTENT).send());
 
 app.use('/toy', require('./presentation/routes/toy'));
 app.use('/color', require('./presentation/routes/color'));

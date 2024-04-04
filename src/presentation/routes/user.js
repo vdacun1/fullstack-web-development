@@ -3,9 +3,7 @@ const RegisterRequest = require('../../application/requests/RegisterRequest');
 
 const user = express.Router();
 
-user.post('/register', RegisterRequest.validate(), async (req, res) => {
-  return await RegisterRequest.handle(req, res);
-});
+user.post('/register', RegisterRequest.validate(), RegisterRequest.handle);
 
 user.post('/forgot-password', async (req, res) => {
   return res.send('Forgot password');

@@ -4,7 +4,7 @@ const ErrorResponse = require('../responses/ErrorResponse');
 const { log } = require('../../infrastructure/Logger');
 
 const GetColorsUseCase = {
-  handle: async (res) => {
+  handle: async (req, res) => {
     try {
       const colors = await ColorService.list();
       return res.status(HttpStatus.OK).send(colors);

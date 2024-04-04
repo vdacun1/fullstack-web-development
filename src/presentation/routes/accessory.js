@@ -3,8 +3,6 @@ const GetAccessoriesUseCase = require('../../application/usecases/GetAccessories
 
 const accessory = express.Router();
 
-accessory.get('/list', async (req, res) => {
-  return await GetAccessoriesUseCase.handle(res);
-});
+accessory.get('/list', GetAccessoriesUseCase.handle);
 
 module.exports = accessory;

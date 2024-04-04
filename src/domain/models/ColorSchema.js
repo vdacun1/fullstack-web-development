@@ -11,6 +11,7 @@ const ColorSchema = new Schema({
     type: String,
     maxLength: 7,
     minLength: 7,
+    select: true,
   },
 });
 

@@ -3,8 +3,6 @@ const GetColorsUseCase = require('../../application/usecases/GetColorsUseCase');
 
 const color = express.Router();
 
-color.get('/list', async (req, res) => {
-  return await GetColorsUseCase.handle(res);
-});
+color.get('/list', GetColorsUseCase.handle);
 
 module.exports = color;
