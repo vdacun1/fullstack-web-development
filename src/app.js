@@ -1,8 +1,5 @@
 const express = require('express');
 
-// Limiter is a middleware that limits the number of requests per IP.
-const { limiter } = require('./infrastructure/Config');
-
 // Morgan is a middleware for logging HTTP requests in console.
 const { morgan } = require('./infrastructure/Logger');
 
@@ -13,7 +10,6 @@ const helmet = require('helmet');
 const Context = require('./infrastructure/Context');
 
 const app = express();
-app.use(limiter);
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
