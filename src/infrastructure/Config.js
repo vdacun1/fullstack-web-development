@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const { rateLimit } = require('express-rate-limit');
 
 dotenv.config();
 
@@ -27,6 +28,10 @@ const Config = {
   },
   morgan: process.env.MORGAN_FORMAT,
   page_size: process.env.PAGE_SIZE,
+  limiter: rateLimit({
+    windowMs: parseInt(process.env.LIMITER_WINDOW_MS),
+    max: parseInt(process.env.LIMITER_WINDOW_MAX_REQUESTS),
+  }),
 };
 
 module.exports = Config;

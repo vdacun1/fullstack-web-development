@@ -10,9 +10,9 @@ const PostUserToyUseCase = {
 
       const userToy = await UserToyService.create({
         user,
-        toy,
-        color,
-        accessory,
+        toyName: toy,
+        colorName: color,
+        accessoryName: accessory,
       });
 
       return res.status(HttpStatus.OK).send(userToy);

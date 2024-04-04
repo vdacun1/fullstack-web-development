@@ -11,29 +11,44 @@ const UserToyService = {
     return userToyRepository.find({ user: userId });
   },
 
-  create: async ({ user, toy, color, accessory }) => {
-    await checkIfEntityExists({ user, toy, color, accessory });
+  create: async ({ user, toyName, colorName, accessoryName }) => {
+    const [toy, color, accessory] = await getEntities({
+      toyName,
+      colorName,
+      accessoryName,
+    });
     const userToyRepository = UserToyRepository();
     return await userToyRepository.create({ user, toy, color, accessory });
   },
 };
 
-const checkIfEntityExists = async ({ user, toy, color, accessory }) => {
+const getEntities = async ({ toyName, colorName, accessoryName }) => {
   const repositories = [
-    { repo: UserRepository(), id: user, name: 'User' },
-    { repo: ToyRepository(), id: toy, name: 'Toy' },
-    { repo: ColorRepository(), id: color, name: 'Color' },
-    { repo: AccessoryRepository(), id: accessory, name: 'Accessory' },
+    {
+      repository: ToyRepository(),
+      name: toyName,
+      model: 'toy',
+    },
+    {
+      repository: ColorRepository(),
+      name: colorName,
+      model: 'color',
+    },
+    {
+      repository: AccessoryRepository(),
+      name: accessoryName,
+      model: 'accessory',
+    },
   ];
 
   const results = await Promise.all(
-    repositories.map(({ repo, id }) => repo.findById(id)),
+    repositories.map(({ repository, name }) => repository.findOne({ name })),
   );
 
   const errors = repositories
     .filter((_, index) => !results[index])
-    .reduce((acc, { id, name }) => {
-      acc[name] = `${id} not found`;
+    .reduce((acc, { name, model }) => {
+      acc[model] = `${name} not found`;
       return acc;
     }, {});
 
@@ -44,6 +59,7 @@ const checkIfEntityExists = async ({ user, toy, color, accessory }) => {
       errors,
     };
   }
+  return results.map(({ _id }) => _id);
 };
 
 module.exports = UserToyService;
