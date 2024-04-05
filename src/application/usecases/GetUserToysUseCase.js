@@ -1,7 +1,7 @@
 const UserToyService = require('../../domain/services/UserToyService');
 const HttpStatus = require('../constants/HttpStatus');
 const ErrorResponse = require('../responses/ErrorResponse');
-const { log } = require('../../infrastructure/logger');
+const { log } = require('../../infrastructure/Logger');
 
 const GetUserToysUseCase = {
   handle: async (res, data) => {

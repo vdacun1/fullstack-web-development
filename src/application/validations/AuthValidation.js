@@ -1,6 +1,6 @@
 const JWTService = require('../../domain/services/JWTService');
 const ErrorResponse = require('../responses/ErrorResponse');
-const { log } = require('../../infrastructure/logger');
+const { log } = require('../../infrastructure/Logger');
 
 const AuthValidation = {
   authorize: (req, res, next) => {
