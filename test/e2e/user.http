@@ -19,21 +19,16 @@ Content-Type: application/json
 ### GET /user-toy/list
 GET {{base_url}}/user-toy/list
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZWFkMjVhNzViYzllNGE5NzhhNDc2IiwiaWF0IjoxNzEyMjM3ODY3LCJleHAiOjE3MTIyNDE0Njd9.SKbmWUBBMYkSjmhrDds1EF7Nw6Md5HEa9eTaQoYwzIU
-
-### GET /user-toy/list
-GET {{base_url}}/user-toy/list
-Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZTA0NTg2MDM0YTliMWZiMjllNzc3IiwiaWF0IjoxNzEyMTk0NjU0LCJleHAiOjE3MTIxOTgyNTR9.lt2gjvBqqHmoYOSvroF1I2-ayljcVxMvQ7Ambuoj41I
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyMjc1ODAzLCJleHAiOjE3MTIyNzk0MDN9.tScBXkdWMhRIKQ_HRdrxUbo7XsEoWUJemS4ZHT-m3HI
 
 ### POST /user-toy/create
 POST {{base_url}}/user-toy/create
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZWFkMjVhNzViYzllNGE5NzhhNDc2IiwiaWF0IjoxNzEyMjM3ODY3LCJleHAiOjE3MTIyNDE0Njd9.SKbmWUBBMYkSjmhrDds1EF7Nw6Md5HEa9eTaQoYwzIU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyMjc1ODAzLCJleHAiOjE3MTIyNzk0MDN9.tScBXkdWMhRIKQ_HRdrxUbo7XsEoWUJemS4ZHT-m3HI
 
 {
   "toy": "gato",
-  "color": "verde",
+  "color": "amarillo",
   "accessory": "notebook"
 }
 

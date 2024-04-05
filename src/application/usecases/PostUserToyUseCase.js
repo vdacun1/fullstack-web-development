@@ -9,17 +9,19 @@ const PostUserToyUseCase = {
       const { user, toy, color, accessory } = data;
 
       const userToy = await UserToyService.create({
-        user,
+        userId: user,
         toyName: toy,
         colorName: color,
         accessoryName: accessory,
       });
 
-      return res.status(HttpStatus.OK).send(userToy);
+      return res
+        .status(userToy.quantity === 1 ? HttpStatus.CREATED : HttpStatus.OK)
+        .send(userToy);
     } catch (error) {
       if (error.error === ErrorType.EntityNotFound) {
         return ErrorResponse.handleApiException(res, {
-          status: HttpStatus.BAD_REQUEST,
+          status: HttpStatus.NOT_FOUND,
           message: error.message,
           errors: error.errors,
         });

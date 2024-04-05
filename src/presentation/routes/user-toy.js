@@ -2,6 +2,7 @@ const express = require('express');
 const { authorize } = require('../../application/validations/AuthValidation');
 const GetUserToysRequest = require('../../application/requests/GetUserToysRequest');
 const PostUserToyRequest = require('../../application/requests/PostUserToyRequest');
+
 const userToy = express.Router();
 
 // Limiter is a middleware that limits the number of requests per IP.
