@@ -1,10 +1,10 @@
-const bcrypt = require("bcrypt");
-const CryptService = require("@src/domain/services/CryptService");
+const bcrypt = require('bcrypt');
+const CryptService = require('@src/domain/services/CryptService');
 
-describe("CryptService", () => {
-  describe("hash", () => {
-    it("should return a hashed string", async () => {
-      const data = "myData";
+describe('CryptService', () => {
+  describe('hash', () => {
+    test('should return a hashed string', async () => {
+      const data = 'myData';
       const hashedData = await CryptService.hash(data);
 
       expect(hashedData).not.toEqual(data);
@@ -12,21 +12,21 @@ describe("CryptService", () => {
     });
   });
 
-  describe("compare", () => {
-    it("should return true if data matches the hash", async () => {
-      const data = "myData";
+  describe('compare', () => {
+    test('should return true if data matches the hash', async () => {
+      const data = 'myData';
       const hashedData = await CryptService.hash(data);
       const isMatch = await CryptService.compare(data, hashedData);
 
       expect(isMatch).toBe(true);
     });
 
-    it("should throw an error if data does not match the hash", async () => {
-      const data = "myData";
-      const hashedData = await CryptService.hash("otherData");
+    test('should throw an error if data does not match the hash', async () => {
+      const data = 'myData';
+      const hashedData = await CryptService.hash('otherData');
 
       await expect(CryptService.compare(data, hashedData)).rejects.toThrow(
-        "Values do not match",
+        'Values do not match',
       );
     });
   });

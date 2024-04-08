@@ -10,8 +10,12 @@ const getMongoUri = () => {
 };
 
 const MongoDB = {
-  connect: async () => {
-    return await mongoose.connect(getMongoUri());
+  connect: async (mongoUri = getMongoUri()) => {
+    return await mongoose.connect(mongoUri);
+  },
+
+  disconnect: async () => {
+    return await mongoose.connection.close();
   },
 
   initialize: async () => {

@@ -1,16 +1,20 @@
-const mongoose = require("mongoose");
-const { MongoMemoryServer } = require("mongodb-memory-server");
+const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const MongoDB = require('@src/infrastructure/MongoDB');
 
 let server;
 
 beforeAll(async () => {
   server = await MongoMemoryServer.create();
+  let mongoUri = server.getUri();
 
-  await mongoose.connect(server.getUri(), {});
+  await MongoDB.connect(mongoUri);
+
+  await MongoDB.initialize();
 });
 
 afterAll(async () => {
-  if (server) await server.stop();
+  await MongoDB.disconnect();
 
-  await mongoose.connection.close();
+  if (server) await server.stop();
 });
