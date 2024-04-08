@@ -12,8 +12,8 @@ const getRedisUri = () => {
 };
 
 const RedisCache = {
-  connect: async () => {
-    redisClient = redis.createClient(getRedisUri());
+  connect: async (redisUri = getRedisUri()) => {
+    redisClient = redis.createClient(redisUri);
 
     return await redisClient.connect();
   },

@@ -19,7 +19,7 @@ Content-Type: application/json
 ### GET /user-toy/list
 GET {{base_url}}/user-toy/list
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyMjc1ODAzLCJleHAiOjE3MTIyNzk0MDN9.tScBXkdWMhRIKQ_HRdrxUbo7XsEoWUJemS4ZHT-m3HI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyNjAzMjg2LCJleHAiOjE3MTI2MDY4ODZ9.Bz_qWgcEDYMpUK81oRRxWA33to_uigmlNR3AjtgsypY
 
 ### POST /user-toy/create
 POST {{base_url}}/user-toy/create
