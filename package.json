@@ -6,8 +6,8 @@
     "start": "node src/server.js",
     "run & debug": "nodemon src/server.js",
     "test": "jest",
-    "test-coverage": "jest --runInBand --coverage --forceExit",
-    "test-reporters": "jest --runInBand --reporters=default --reporters=jest-junit --forceExit",
+    "test-coverage": "jest --coverage --forceExit",
+    "test-reporters": "jest --reporters=default --reporters=jest-junit --forceExit",
     "build": "webpack"
   },
   "dependencies": {
