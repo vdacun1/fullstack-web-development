@@ -17,12 +17,10 @@ module.exports = async () => {
   const redisServer = new RedisMemoryServer();
   const host = await redisServer.getHost();
   const port = await redisServer.getPort();
-  const redisUri = {
+  globalThis.__REDIS_URI__ = {
     url: `redis://${host}:${port}`,
   };
-  globalThis.__REDIS_URI__ = redisUri;
-  await RedisCache.connect(redisUri);
 
-  globalThis.__MONGOSERVER__ = mongoServer;
-  globalThis.__REDISSERVER__ = redisServer;
+  globalThis.__MONGO_SERVER__ = mongoServer;
+  globalThis.__REDIS_SERVER__ = redisServer;
 };

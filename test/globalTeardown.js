@@ -1,4 +1,4 @@
 module.exports = async () => {
-  await globalThis.__MONGOSERVER__.stop();
-  await globalThis.__REDISSERVER__.stop();
+  await globalThis.__MONGO_SERVER__.stop();
+  await globalThis.__REDIS_SERVER__.stop();
 };
