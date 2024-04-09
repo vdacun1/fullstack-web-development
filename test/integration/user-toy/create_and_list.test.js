@@ -1,14 +1,29 @@
 const request = require('supertest');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const { RedisMemoryServer } = require('redis-memory-server');
 
 const app = require('@src/app');
 const MongoDB = require('@src/infrastructure/MongoDB');
 const RedisCache = require('@src/infrastructure/RedisCache');
 describe('AIO - UserToy POST /user-toy/create & GET /user-toy/list', () => {
   let token;
+  let mongoServer;
+  let mongoUri;
+  let redisServer;
 
   beforeAll(async () => {
-    await MongoDB.connect(globalThis.__MONGO_URI__);
-    await RedisCache.connect(globalThis.__REDIS_URI__);
+    mongoServer = await MongoMemoryServer.create();
+    mongoUri = mongoServer.getUri();
+    await MongoDB.connect(mongoUri);
+    await MongoDB.initialize();
+
+    redisServer = new RedisMemoryServer();
+    const host = await redisServer.getHost();
+    const port = await redisServer.getPort();
+    const redisUri = {
+      url: `redis://${host}:${port}`,
+    };
+    await RedisCache.connect(redisUri);
 
     await request(app).post('/user/register').send({
       email: 'pqnc98y@x9p182.com',
@@ -26,6 +41,8 @@ describe('AIO - UserToy POST /user-toy/create & GET /user-toy/list', () => {
   afterAll(async () => {
     await MongoDB.disconnect();
     await RedisCache.disconnect();
+    mongoServer.stop();
+    redisServer.stop();
   });
 
   test('Should create a user toy successfully', async () => {

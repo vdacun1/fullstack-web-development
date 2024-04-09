@@ -2,14 +2,22 @@ const request = require('supertest');
 
 const app = require('@src/app');
 const MongoDB = require('@src/infrastructure/MongoDB');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 describe('POST /auth/login', () => {
+  let mongoServer;
+  let mongoUri;
+
   beforeAll(async () => {
-    await MongoDB.connect(globalThis.__MONGO_URI__);
+    mongoServer = await MongoMemoryServer.create();
+    mongoUri = mongoServer.getUri();
+    await MongoDB.connect(mongoUri);
+    await MongoDB.initialize();
   });
 
   afterAll(async () => {
     await MongoDB.disconnect();
+    mongoServer.stop();
   });
 
   test('Should login successfully', async () => {
