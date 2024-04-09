@@ -1,9 +1,16 @@
 const request = require('supertest');
-
+const MongoDB = require('@src/infrastructure/MongoDB');
 const app = require('@src/app');
-const { log } = require('@src/infrastructure/Logger');
 
 describe('GET /accessory/list', () => {
+  beforeAll(async () => {
+    await MongoDB.connect(globalThis.__MONGO_URI__);
+  });
+
+  afterAll(async () => {
+    await MongoDB.disconnect();
+  });
+
   test('Should return a list of accessories', async () => {
     const response = await request(app).get('/accessory/list');
 

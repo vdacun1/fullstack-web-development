@@ -1,10 +1,15 @@
 const request = require('supertest');
 
 const app = require('@src/app');
+const MongoDB = require('@src/infrastructure/MongoDB');
+const RedisCache = require('@src/infrastructure/RedisCache');
 describe('AIO - UserToy POST /user-toy/create & GET /user-toy/list', () => {
   let token;
 
   beforeAll(async () => {
+    await MongoDB.connect(globalThis.__MONGO_URI__);
+    await RedisCache.connect(globalThis.__REDIS_URI__);
+
     await request(app).post('/user/register').send({
       email: 'pqnc98y@x9p182.com',
       password: 'password',
@@ -16,6 +21,11 @@ describe('AIO - UserToy POST /user-toy/create & GET /user-toy/list', () => {
     });
 
     token = login.body.token;
+  });
+
+  afterAll(async () => {
+    await MongoDB.disconnect();
+    await RedisCache.disconnect();
   });
 
   test('Should create a user toy successfully', async () => {
