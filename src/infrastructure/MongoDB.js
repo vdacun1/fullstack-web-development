@@ -14,6 +14,7 @@ const MongoDB = {
     if (!mongoUri) {
       mongoUri = getMongoUri();
     }
+
     return await mongoose.connect(mongoUri);
   },
 
