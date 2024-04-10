@@ -29,6 +29,12 @@ const UserSchema = new Schema({
     required: true,
     select: false,
   },
+  toys: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'UserToy',
+    },
+  ],
 });
 
 module.exports = UserSchema;

@@ -3,7 +3,7 @@ POST {{base_url}}/user/register
 Content-Type: application/json
 
 {
-  "email": "victor5@victor.com",
+  "email": "victor0@victor.com",
   "password": "this_is_a_password"
 }
 
@@ -12,15 +12,34 @@ POST {{base_url}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "victor1@victor.com",
+  "email": "victor0@victor.com",
   "password": "this_is_a_password"
 }
 
-### POST /user/register
-POST {{base_url}}/user/register
+### GET /user-toy/list
+GET {{base_url}}/user-toy/list
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyNjE4ODUwLCJleHAiOjE3MTI2MjI0NTB9.z_K1a-31SAzbpHbZExu03aAryyv0xJhIrYh3Sr3i-Gc
+
+### POST /user-toy/create
+POST {{base_url}}/user-toy/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyMjc1ODAzLCJleHAiOjE3MTIyNzk0MDN9.tScBXkdWMhRIKQ_HRdrxUbo7XsEoWUJemS4ZHT-m3HI
 
 {
-  "email": "victor@gmail.com",
-  "password": "this_is_a_password"
+  "toy": "gato",
+  "color": "amarillo",
+  "accessory": "notebook"
 }
+
+### GET /toy/list
+GET {{base_url}}/toy/list
+Content-Type: application/json
+
+### GET /color/list
+GET {{base_url}}/color/list
+Content-Type: application/json
+
+### GET /accessory/list
+GET {{base_url}}/accessory/list
+Content-Type: application/json

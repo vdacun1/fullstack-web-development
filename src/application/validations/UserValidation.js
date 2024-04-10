@@ -1,6 +1,7 @@
-const { body } = require('express-validator');
+const { header, body } = require('express-validator');
 
 const UserValidation = {
+  user: () => header('user').isMongoId(),
   email: () =>
     body('email')
       .isEmail()

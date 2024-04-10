@@ -21,6 +21,10 @@ const UserToySchema = new Schema({
     ref: 'Accessory',
     required: true,
   },
+  quantity: {
+    type: Number,
+    default: 1,
+  },
   created_at: {
     type: Date,
     default: Date.now,

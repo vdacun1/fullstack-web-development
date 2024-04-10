@@ -12,10 +12,16 @@ const getRedisUri = () => {
 };
 
 const RedisCache = {
-  connect: async () => {
-    redisClient = redis.createClient(getRedisUri());
+  connect: async (redisUri) => {
+    if (!redisUri) {
+      redisUri = getRedisUri();
+    }
+    redisClient = redis.createClient(redisUri);
 
     return await redisClient.connect();
+  },
+  disconnect: async () => {
+    return await redisClient.quit();
   },
   getClient: () => {
     return redisClient;

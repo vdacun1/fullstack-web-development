@@ -11,6 +11,10 @@ log.info('Connecting to MongoDB');
 MongoDB.connect().then(() => {
   log.info('Connected to MongoDB');
 
+  MongoDB.initialize()
+    .then(() => log.warn('Database initialized'))
+    .catch(() => log.warn('Database already initialized'));
+
   log.info('Connecting to Redis');
   RedisCache.connect().then(() => {
     log.info('Connected to Redis');

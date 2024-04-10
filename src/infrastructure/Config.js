@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const { rateLimit } = require('express-rate-limit');
 
 dotenv.config();
 
@@ -26,7 +27,13 @@ const Config = {
     password: process.env.REDIS_PASSWORD,
   },
   morgan: process.env.MORGAN_FORMAT,
-  page_size: process.env.PAGE_SIZE,
+  page_size: parseInt(process.env.PAGE_SIZE),
+  limiter: rateLimit({
+    windowMs: parseInt(process.env.LIMITER_WINDOW_MS),
+    max: parseInt(process.env.LIMITER_WINDOW_MAX_REQUESTS),
+    standardHeaders: false,
+    legacyHeaders: false,
+  }),
 };
 
 module.exports = Config;
