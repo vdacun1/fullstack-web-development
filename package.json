@@ -6,8 +6,8 @@
     "start": "node src/server.js",
     "run & debug": "nodemon src/server.js",
     "test": "jest",
-    "test-coverage": "jest --coverage",
-    "test-reporters": "jest --reporters=default --reporters=jest-junit",
+    "test-coverage": "jest --collect-coverage --no-cache",
+    "test-reporters": "jest --reporters=default --reporters=jest-junit --no-cache",
     "build": "webpack"
   },
   "dependencies": {
