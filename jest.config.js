@@ -8,4 +8,5 @@ module.exports = {
   },
   globalSetup: './test/globalSetup.js',
   globalTeardown: './test/globalTeardown.js',
+  testMatch: ['<rootDir>/test/**/*.test.js'],
 };

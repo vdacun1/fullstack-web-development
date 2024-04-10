@@ -13,7 +13,6 @@ const getMongoUri = () => {
 const MongoDB = {
   connect: async (mongoUri) => {
     if (!mongoUri) {
-      log.info('MongoDB URI not provided, using config');
       mongoUri = getMongoUri();
     }
 

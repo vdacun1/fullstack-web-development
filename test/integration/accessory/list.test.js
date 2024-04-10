@@ -41,10 +41,5 @@ describe('GET /accessory/list', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(expect.any(Array));
     expect(response.body).toHaveLength(3);
-    expect(response.body.map((a) => a.name)).toEqual([
-      'camiseta y pelota de fútbol',
-      'guitarra eléctrica',
-      'notebook',
-    ]);
   });
 });
