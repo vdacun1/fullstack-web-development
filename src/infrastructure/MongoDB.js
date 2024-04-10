@@ -1,5 +1,6 @@
-const Config = require('../infrastructure/Config');
 const mongoose = require('mongoose');
+const Config = require('../infrastructure/Config');
+const { log } = require('../infrastructure/Logger');
 
 const getMongoUri = () => {
   const auth = `${Config.mongo.user}:${Config.mongo.password}`;
@@ -12,6 +13,7 @@ const getMongoUri = () => {
 const MongoDB = {
   connect: async (mongoUri) => {
     if (!mongoUri) {
+      log.info('MongoDB URI not provided, using config');
       mongoUri = getMongoUri();
     }
 
