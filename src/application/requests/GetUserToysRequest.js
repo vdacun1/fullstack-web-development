@@ -11,7 +11,7 @@ const GetUserToysRequest = {
       return await GetUserToysUseCase.handle(res, matchedData(req));
     }
 
-    return ErrorResponse.handleApiException(res, result.array());
+    return ErrorResponse.handleValidation(res, result.array());
   },
 };
 

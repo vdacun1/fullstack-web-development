@@ -10,29 +10,14 @@ const UserToyRepository = () => {
     limit = Config.page_size,
     page = 1,
   ) => {
-    await UserToyModel.find({ user })
+    return await UserToyModel.find({ user })
       .limit(limit)
       .skip(limit * (page - 1))
       .sort({ created_at: -1 })
       .exec();
   };
 
-  UserToyModel.getGlobalRanking = async (
-    limit = Config.page_size,
-    page = 1,
-  ) => {
-    await UserToyModel.aggregate()
-      .group({
-        _id: '$user',
-        total: { $sum: 1 },
-      })
-      .sort({ total: -1 })
-      .limit(limit)
-      .skip(limit * (page - 1))
-      .exec();
-  };
-
-  return mongoose.model('UserToy', UserToySchema);
+  return UserToyModel;
 };
 
 module.exports = UserToyRepository;

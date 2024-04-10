@@ -28,6 +28,7 @@ describe('UserToyService', () => {
       find: jest.fn(),
       findOne: jest.fn(),
       create: jest.fn(),
+      getUserLastItemsCreated: jest.fn(),
     };
     userRepositoryMock = {
       findOne: jest.fn(),
@@ -66,7 +67,9 @@ describe('UserToyService', () => {
       { toy: 'toy1', color: 'color1', accessory: 'accessory1', quantity: 1 },
     ];
 
-    userToyRepositoryMock.find.mockResolvedValue(mockUserToys);
+    userToyRepositoryMock.getUserLastItemsCreated.mockResolvedValue(
+      mockUserToys,
+    );
 
     const result = await UserToyService.list('1');
 
@@ -78,7 +81,9 @@ describe('UserToyService', () => {
       { toy: '1', color: '1', accessory: '1', quantity: 1 },
     ];
 
-    userToyRepositoryMock.find.mockResolvedValue(mockUserToys);
+    userToyRepositoryMock.getUserLastItemsCreated.mockResolvedValue(
+      mockUserToys,
+    );
     toyRepositoryMock.findOne.mockResolvedValue(null);
 
     await expect(UserToyService.list('1')).rejects.toEqual({
@@ -96,7 +101,9 @@ describe('UserToyService', () => {
       { toy: '1', color: '1', accessory: '1', quantity: 1 },
     ];
 
-    userToyRepositoryMock.find.mockResolvedValue(mockUserToys);
+    userToyRepositoryMock.getUserLastItemsCreated.mockResolvedValue(
+      mockUserToys,
+    );
     toyRepositoryMock.findOne.mockResolvedValue({ name: 'toy1' });
     colorRepositoryMock.findOne.mockResolvedValue(null);
 
@@ -115,7 +122,9 @@ describe('UserToyService', () => {
       { toy: '1', color: '1', accessory: '1', quantity: 1 },
     ];
 
-    userToyRepositoryMock.find.mockResolvedValue(mockUserToys);
+    userToyRepositoryMock.getUserLastItemsCreated.mockResolvedValue(
+      mockUserToys,
+    );
     toyRepositoryMock.findOne.mockResolvedValue({ name: 'toy1' });
     colorRepositoryMock.findOne.mockResolvedValue({ name: 'color1' });
     accessoryRepositoryMock.findOne.mockResolvedValue(null);

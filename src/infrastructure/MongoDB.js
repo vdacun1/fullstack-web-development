@@ -17,10 +17,6 @@ const MongoDB = {
     return await mongoose.connect(mongoUri);
   },
 
-  connection: () => {
-    return mongoose.connection;
-  },
-
   disconnect: async () => {
     return await mongoose.connection.close();
   },

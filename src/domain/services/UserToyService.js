@@ -10,8 +10,10 @@ const AccessoryRepository = require('../repositories/AccessoryRepository');
 const UserToyService = {
   list: async (userId) => {
     const userToyRepository = UserToyRepository();
-    const userToys = await userToyRepository.find({ user: userId });
+    let userToys;
 
+    userToys = await userToyRepository.getUserLastItemsCreated(userId);
+    
     const cacheKey = `user_toy_list_${userId}`;
     const cachedUserToyList = await CacheService.get(cacheKey);
 

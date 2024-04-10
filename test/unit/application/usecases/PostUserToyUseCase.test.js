@@ -1,6 +1,7 @@
 const UserToyService = require('@src/domain/services/UserToyService');
 const HttpStatus = require('@src/application/constants/HttpStatus');
 const PostUserToyUseCase = require('@src/application/usecases/PostUserToyUseCase');
+const ErrorType = require('@src/domain/constants/ErrorType');
 
 jest.mock('@src/domain/services/UserToyService');
 
@@ -58,6 +59,28 @@ describe('PostUserToyUseCase', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(mockResponse.send).toHaveBeenCalledWith(mockUserToy);
+  });
+
+  test('should return HttpStatus.NOT_FOUND when the entity is not found', async () => {
+    const mockData = {
+      user: '1',
+      toy: 'toy',
+      color: 'color',
+      accessory: 'accessory',
+    };
+
+    const error = new Error();
+    error.error = ErrorType.EntityNotFound;
+    UserToyService.create.mockRejectedValue(error);
+
+    await PostUserToyUseCase.handle(mockResponse, mockData);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.NOT_FOUND);
+    expect(mockResponse.send).toHaveBeenCalledWith({
+      status: HttpStatus.NOT_FOUND,
+      message: error.message,
+      errors: error.errors,
+    });
   });
 
   test('should return an error when the creation fails', async () => {

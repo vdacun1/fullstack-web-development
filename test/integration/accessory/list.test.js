@@ -5,12 +5,28 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 describe('GET /accessory/list', () => {
   let mongoServer;
-  let mongoUri;
 
   beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create();
-    mongoUri = mongoServer.getUri();
-    await MongoDB.connect(mongoUri);
+    // This will test MongoDB.js getting the connection string from the environment
+    mongoServer = await MongoMemoryServer.create({
+      instance: {
+        dbName: 'test',
+        port: 27018,
+      },
+      auth: {
+        enable: true,
+        extraUsers: [
+          {
+            database: 'test',
+            createUser: 'test_user',
+            pwd: 'test_password',
+            roles: [{ role: 'readWrite', db: 'test' }],
+          },
+        ],
+      },
+    });
+
+    await MongoDB.connect();
     await MongoDB.initialize();
   });
 
