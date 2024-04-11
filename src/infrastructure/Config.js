@@ -28,6 +28,9 @@ const Config = {
   },
   morgan: process.env.MORGAN_FORMAT,
   page_size: parseInt(process.env.PAGE_SIZE),
+  user_toy_cache_expiration: parseInt(
+    process.env.USER_TOY_CACHE_EXPIRATION_MILLISECONDS,
+  ),
   limiter: rateLimit({
     windowMs: parseInt(process.env.LIMITER_WINDOW_MS),
     max: parseInt(process.env.LIMITER_WINDOW_MAX_REQUESTS),

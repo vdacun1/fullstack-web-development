@@ -1,4 +1,5 @@
 const RedisCache = require('../../infrastructure/RedisCache');
+const CacheKeys = require('../constants/CacheKeys');
 
 const CacheService = {
   set: async (key, value) => {
@@ -13,6 +14,7 @@ const CacheService = {
     const redis = RedisCache.getClient();
     return await redis.del(key);
   },
+  keys: CacheKeys,
 };
 
 module.exports = CacheService;
