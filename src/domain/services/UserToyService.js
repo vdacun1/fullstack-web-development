@@ -1,33 +1,37 @@
 const CacheService = require('./CacheService');
+const Config = require('../../infrastructure/Config');
+const EntityLookupService = require('./EntityLookupService');
+const { log } = require('../../infrastructure/Logger');
 
-const ErrorType = require('../constants/ErrorType');
 const UserToyRepository = require('../repositories/UserToyRepository');
 const UserRepository = require('../repositories/UserRepository');
-const ToyRepository = require('../repositories/ToyRepository');
-const ColorRepository = require('../repositories/ColorRepository');
-const AccessoryRepository = require('../repositories/AccessoryRepository');
+
+const CACHE_EXPIRATION_MILLISECONDS = Config.user_toy_cache_expiration;
 
 const UserToyService = {
   list: async (userId) => {
-    const userToyRepository = UserToyRepository();
-    let userToys;
-
-    userToys = await userToyRepository.getUserLastItemsCreated(userId);
-    
-    const cacheKey = `user_toy_list_${userId}`;
-    const cachedUserToyList = await CacheService.get(cacheKey);
+    const cacheKey = userId;
+    const cachedUserToyList = await CacheService.groupGet(
+      CacheService.keys.USER_TOY_LIST,
+      cacheKey,
+    );
 
     if (cachedUserToyList) {
       return JSON.parse(cachedUserToyList);
     }
 
+    const userToyRepository = UserToyRepository();
+    let userToys;
+
+    userToys = await userToyRepository.getUserLastItemsCreated(userId);
     const userToyList = await Promise.all(
       userToys.map(async ({ toy, color, accessory, quantity }) => {
-        const [toyName, colorName, accessoryName] = await getEntitiesById({
-          toyId: toy,
-          colorId: color,
-          accessoryId: accessory,
-        });
+        const [toyName, colorName, accessoryName] =
+          await EntityLookupService.byId({
+            toyId: toy,
+            colorId: color,
+            accessoryId: accessory,
+          });
 
         return {
           toy: toyName,
@@ -38,7 +42,11 @@ const UserToyService = {
       }),
     );
 
-    await CacheService.set(cacheKey, JSON.stringify(userToyList));
+    await CacheService.groupSet(
+      CacheService.keys.USER_TOY_LIST,
+      cacheKey,
+      JSON.stringify(userToyList),
+    );
 
     return userToyList;
   },
@@ -47,7 +55,7 @@ const UserToyService = {
     const userRepository = UserRepository();
     const user = await userRepository.findOne({ _id: userId });
 
-    const [toy, color, accessory] = await getEntitiesByName({
+    const [toy, color, accessory] = await EntityLookupService.byName({
       toyName,
       colorName,
       accessoryName,
@@ -76,8 +84,8 @@ const UserToyService = {
       await user.save();
     }
 
-    const cacheKey = `user_toy_list_${userId}`;
-    await CacheService.del(cacheKey);
+    await CacheService.groupDel(CacheService.keys.USER_TOY_LIST, userId);
+    await CacheService.set(CacheService.keys.NEW_TOYS_ADDED, 'true');
 
     return {
       user: user.email,
@@ -87,88 +95,81 @@ const UserToyService = {
       quantity: userToy.quantity,
     };
   },
-};
 
-const getEntitiesById = async ({ toyId, colorId, accessoryId }) => {
-  const repositories = [
-    {
-      repository: ToyRepository(),
-      id: toyId,
-      model: 'toy',
-    },
-    {
-      repository: ColorRepository(),
-      id: colorId,
-      model: 'color',
-    },
-    {
-      repository: AccessoryRepository(),
-      id: accessoryId,
-      model: 'accessory',
-    },
-  ];
+  /**
+   * Retrieves the ranking of the most frequently used toys:
+   *
+   * This function manages the cache expiration and checks if new toys have been
+   * added using the 'create' method above. This is tracked by a flag in the
+   * cache named 'new_toys_added'.
+   *
+   * If the flag is set to true and the cache has expired, the cache will be
+   * updated by executing the query to fetch the updated ranking.
+   *
+   * If the flag is set to false, the function will return the cached data,
+   * regardless of its expiration status.
+   *
+   * If the flag is set to true and the cache has not expired, the function will
+   * return the cached data as it is.
+   */
+  ranking: async () => {
+    const cacheKey = CacheService.keys.USER_TOY_RANKING;
+    const cachedData = await CacheService.get(cacheKey);
+    const newToysAdded = await CacheService.get(
+      CacheService.keys.NEW_TOYS_ADDED,
+    );
 
-  const results = await Promise.all(
-    repositories.map(({ repository, id }) => repository.findOne({ _id: id })),
-  );
+    const currentTime = Date.now();
 
-  const errors = repositories
-    .filter((_, index) => !results[index])
-    .reduce((acc, { id, model }) => {
-      acc[model] = `${id} not found`;
-      return acc;
-    }, {});
+    if (cachedData) {
+      const { timestamp, userToyRanking } = JSON.parse(cachedData);
 
-  if (Object.keys(errors).length > 0) {
-    throw {
-      error: ErrorType.EntityNotFound,
-      message:
-        'Some entities were not found. Please contact support. Error code: DS-UTS-GEI',
-      errors,
+      if (newToysAdded === 'false') {
+        log.info('No new toys added, retrieving cached ranking.');
+        return userToyRanking;
+      }
+
+      const msSinceLastUpdate = currentTime - timestamp;
+      const isCacheExpired = msSinceLastUpdate >= CACHE_EXPIRATION_MILLISECONDS;
+
+      if (!isCacheExpired) {
+        log.info('Cache is not expired, retrieving cached ranking.');
+        return userToyRanking;
+      }
+    }
+
+    const userToyRepository = UserToyRepository();
+    const globalRanking = await userToyRepository.getGlobalRanking();
+
+    let userToyRanking = await Promise.all(
+      globalRanking.map(async ({ _id, total }) => {
+        const [toyName, colorName, accessoryName] =
+          await EntityLookupService.byId({
+            toyId: _id.toy,
+            colorId: _id.color,
+            accessoryId: _id.accessory,
+          });
+
+        return {
+          toy: toyName,
+          color: colorName,
+          accessory: accessoryName,
+          total,
+        };
+      }),
+    );
+
+    const dataToCache = {
+      timestamp: currentTime,
+      userToyRanking,
     };
-  }
 
-  return results.map(({ name }) => name);
-};
+    await CacheService.set(cacheKey, JSON.stringify(dataToCache));
+    await CacheService.set(CacheService.keys.NEW_TOYS_ADDED, 'false');
 
-const getEntitiesByName = async ({ toyName, colorName, accessoryName }) => {
-  const repositories = [
-    {
-      repository: ToyRepository(),
-      name: toyName,
-      model: 'toy',
-    },
-    {
-      repository: ColorRepository(),
-      name: colorName,
-      model: 'color',
-    },
-    {
-      repository: AccessoryRepository(),
-      name: accessoryName,
-      model: 'accessory',
-    },
-  ];
-
-  const results = await Promise.all(
-    repositories.map(({ repository, name }) => repository.findOne({ name })),
-  );
-
-  const errors = repositories
-    .filter((_, index) => !results[index])
-    .reduce((acc, { name, model }) => {
-      acc[model] = `${name} not found`;
-      return acc;
-    }, {});
-
-  if (Object.keys(errors).length > 0) {
-    throw {
-      error: ErrorType.EntityNotFound,
-      message: 'Some entities were not found',
-      errors,
-    };
-  }
-  return results.map(({ _id }) => _id);
+    log.info('Retrieving ranking from database.');
+    return userToyRanking;
+  },
 };
 
 module.exports = UserToyService;

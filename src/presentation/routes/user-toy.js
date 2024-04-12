@@ -2,6 +2,7 @@ const express = require('express');
 const { authorize } = require('../../application/validations/AuthValidation');
 const GetUserToysRequest = require('../../application/requests/GetUserToysRequest');
 const PostUserToyRequest = require('../../application/requests/PostUserToyRequest');
+const GetUserToyRankingUseCase = require('../../application/usecases/GetUserToyRankingUseCase');
 
 const userToy = express.Router();
 
@@ -16,9 +17,7 @@ userToy.get(
   GetUserToysRequest.handle,
 );
 
-userToy.get('/ranking', async (req, res) => {
-  return res.status(200).send('Ranking');
-});
+userToy.get('/ranking', GetUserToyRankingUseCase.handle);
 
 userToy.post(
   '/create',

@@ -19,18 +19,23 @@ Content-Type: application/json
 ### GET /user-toy/list
 GET {{base_url}}/user-toy/list
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyNjE4ODUwLCJleHAiOjE3MTI2MjI0NTB9.z_K1a-31SAzbpHbZExu03aAryyv0xJhIrYh3Sr3i-Gc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyODAwMzcwLCJleHAiOjE3MTI4MDM5NzB9._R5icf0o6Y8S3dGIJ4tEC6IX7R3SeOXGEfNhzH1-55Q
 
 ### POST /user-toy/create
 POST {{base_url}}/user-toy/create
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyMjc1ODAzLCJleHAiOjE3MTIyNzk0MDN9.tScBXkdWMhRIKQ_HRdrxUbo7XsEoWUJemS4ZHT-m3HI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyODAwMzcwLCJleHAiOjE3MTI4MDM5NzB9._R5icf0o6Y8S3dGIJ4tEC6IX7R3SeOXGEfNhzH1-55Q
 
 {
-  "toy": "gato",
+  "toy": "perro",
   "color": "amarillo",
-  "accessory": "notebook"
+  "accessory": "guitarra eléctrica"
 }
+
+
+### GET /user-toy/ranking
+GET {{base_url}}/user-toy/ranking
+Content-Type: application/json
 
 ### GET /toy/list
 GET {{base_url}}/toy/list

@@ -17,6 +17,25 @@ const UserToyRepository = () => {
       .exec();
   };
 
+  UserToyModel.getGlobalRanking = async (
+    limit = Config.page_size,
+    page = 1,
+  ) => {
+    return await UserToyModel.aggregate()
+      .group({
+        _id: {
+          toy: '$toy',
+          color: '$color',
+          accessory: '$accessory',
+        },
+        total: { $sum: '$quantity' },
+      })
+      .sort({ total: -1 })
+      .limit(limit)
+      .skip(limit * (page - 1))
+      .exec();
+  };
+
   return UserToyModel;
 };
 
