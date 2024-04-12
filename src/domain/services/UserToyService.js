@@ -10,8 +10,11 @@ const CACHE_EXPIRATION_MILLISECONDS = Config.user_toy_cache_expiration;
 
 const UserToyService = {
   list: async (userId) => {
-    const cacheKey = CacheService.keys.USER_TOY_LIST(userId);
-    const cachedUserToyList = await CacheService.get(cacheKey);
+    const cacheKey = userId;
+    const cachedUserToyList = await CacheService.groupGet(
+      CacheService.keys.USER_TOY_LIST,
+      cacheKey,
+    );
 
     if (cachedUserToyList) {
       return JSON.parse(cachedUserToyList);
@@ -39,7 +42,11 @@ const UserToyService = {
       }),
     );
 
-    await CacheService.set(cacheKey, JSON.stringify(userToyList));
+    await CacheService.groupSet(
+      CacheService.keys.USER_TOY_LIST,
+      cacheKey,
+      JSON.stringify(userToyList),
+    );
 
     return userToyList;
   },
@@ -77,8 +84,7 @@ const UserToyService = {
       await user.save();
     }
 
-    const cacheKey = CacheService.keys.USER_TOY_LIST(userId);
-    await CacheService.del(cacheKey);
+    await CacheService.groupDel(CacheService.keys.USER_TOY_LIST, userId);
     await CacheService.set(CacheService.keys.NEW_TOYS_ADDED, 'true');
 
     return {
