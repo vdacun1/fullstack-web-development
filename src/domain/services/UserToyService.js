@@ -115,8 +115,9 @@ const UserToyService = {
   ranking: async () => {
     const cacheKey = CacheService.keys.USER_TOY_RANKING;
     const cachedData = await CacheService.get(cacheKey);
-    const newToysAdded =
-      (await CacheService.get(CacheService.keys.NEW_TOYS_ADDED)) || 'false';
+    const newToysAdded = await CacheService.get(
+      CacheService.keys.NEW_TOYS_ADDED,
+    );
 
     const currentTime = Date.now();
 
