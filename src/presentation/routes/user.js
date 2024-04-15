@@ -1,5 +1,8 @@
 const express = require('express');
 const RegisterRequest = require('../../application/requests/RegisterRequest');
+const ConfirmEmailUseCase = require('../../application/usecases/ConfirmEmailUseCase');
+
+const { limiter } = require('../../infrastructure/Config');
 
 const user = express.Router();
 
@@ -9,8 +12,10 @@ user.post('/forgot-password', async (req, res) => {
   return res.send('Forgot password');
 });
 
-user.post('/confirm-email', async (req, res) => {
-  return res.send('Confirm email');
-});
+user.get(
+  '/confirm-email/:email_verification_code',
+  limiter,
+  ConfirmEmailUseCase.handle,
+);
 
 module.exports = user;

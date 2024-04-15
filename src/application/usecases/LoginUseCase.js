@@ -10,10 +10,20 @@ const LoginUseCase = {
     try {
       const { email, password } = data;
 
-      const { _id: user, password: hashedPassword } =
-        await UserService.getUserByEmail(email);
+      const {
+        _id: user,
+        password: hashedPassword,
+        email_verified,
+      } = await UserService.getUserByEmail(email);
 
       await CryptService.compare(password, hashedPassword);
+
+      if (!email_verified) {
+        return res.status(HttpStatus.UNAUTHORIZED).send({
+          status: HttpStatus.UNAUTHORIZED,
+          message: 'Email not verified',
+        });
+      }
 
       const token = JWTService.sign({ user });
 

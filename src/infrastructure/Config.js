@@ -37,6 +37,11 @@ const Config = {
     standardHeaders: false,
     legacyHeaders: false,
   }),
+  verify_email: process.env.VERIFY_EMAIL_ENABLED === 'true',
+  mailersend: {
+    api_key: process.env.MAILERSEND_API_KEY,
+    from_email: process.env.MAILERSEND_FROM_EMAIL,
+  },
 };
 
 module.exports = Config;
