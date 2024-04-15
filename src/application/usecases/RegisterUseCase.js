@@ -1,7 +1,12 @@
+const uuid = require('uuid');
+
 const UserService = require('../../domain/services/UserService');
 const CryptService = require('../../domain/services/CryptService');
 const ErrorResponse = require('../responses/ErrorResponse');
 const HttpStatus = require('../constants/HttpStatus');
+const CacheService = require('../../domain/services/CacheService');
+const MailService = require('../../domain/services/MailService');
+const Config = require('../../infrastructure/Config');
 const { log } = require('../../infrastructure/Logger');
 
 const RegisterUseCase = {
@@ -10,10 +15,28 @@ const RegisterUseCase = {
       const { email, password } = data;
       const hashedPassword = await CryptService.hash(password);
 
-      await UserService.register({
+      let email_verified = false;
+      let email_verification_code = uuid.v4();
+      if (!Config.verify_email) {
+        email_verified = true;
+        email_verification_code = '';
+      }
+
+      const user = await UserService.register({
         email,
         password: hashedPassword,
+        email_verified,
+        email_verification_code,
       });
+
+      if (Config.verify_email) {
+        await CacheService.groupSet(
+          CacheService.keys.EMAIL_VERIFICATION,
+          email_verification_code,
+          user['_id'].toString(),
+        );
+        await MailService.sendConfirmationEmail(email, email_verification_code);
+      }
 
       const message = `User registered successfully: ${email}`;
       log.info(message);

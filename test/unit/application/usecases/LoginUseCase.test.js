@@ -19,7 +19,7 @@ describe('LoginUseCase', () => {
   test('should return a token when the login is successful', async () => {
     const hashedPassword = await CryptService.hash('password');
 
-    const mockUser = { _id: 1, password: hashedPassword };
+    const mockUser = { _id: 1, password: hashedPassword, email_verified: true };
     const mockData = { email: 'test@test.com', password: 'password' };
 
     UserService.getUserByEmail.mockResolvedValue(mockUser);
@@ -36,6 +36,26 @@ describe('LoginUseCase', () => {
         status: HttpStatus.OK,
         message: 'Login success',
         token: expect.any(String),
+      }),
+    );
+  });
+
+  test('should return unauthorized due to email not verified', async () => {
+    const hashedPassword = await CryptService.hash('password');
+
+    const mockUser = { _id: 1, password: hashedPassword };
+    const mockData = { email: 'test@test.com', password: 'password' };
+
+    UserService.getUserByEmail.mockResolvedValue(mockUser);
+
+    await LoginUseCase.handle(mockResponse, mockData);
+    const response = mockResponse.send.mock.calls[0][0];
+
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.UNAUTHORIZED);
+    expect(response).toEqual(
+      expect.objectContaining({
+        status: HttpStatus.UNAUTHORIZED,
+        message: 'Email not verified',
       }),
     );
   });

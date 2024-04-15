@@ -29,6 +29,15 @@ const UserSchema = new Schema({
     required: true,
     select: false,
   },
+  email_verified: {
+    type: Boolean,
+    default: false,
+    select: false,
+  },
+  email_verification_code: {
+    type: String,
+    select: false,
+  },
   toys: [
     {
       type: Schema.Types.ObjectId,
