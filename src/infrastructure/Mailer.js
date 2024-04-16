@@ -1,5 +1,6 @@
 const { MailerSend, EmailParams, Sender, Recipient } = require('mailersend');
 const Config = require('./Config');
+const { log } = require('./Logger');
 
 const mailerSend = new MailerSend({
   apiKey: Config.mailersend.api_key,
@@ -20,7 +21,16 @@ const Mailer = {
       .setSubject(subject)
       .setHtml(body);
 
-    return await mailerSend.email.send(emailParams);
+    mailerSend.email
+      .send(emailParams)
+      .then(() => {
+        log.info(`Email has been sent successfully to ${destination}`);
+      })
+      .catch(() => {
+        log.error(`Error sending email to ${destination}`);
+      });
+
+    return {};
   },
 };
 

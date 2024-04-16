@@ -1,12 +1,15 @@
 const MailService = require('@src/domain/services/MailService');
-const { MailerSend, EmailParams, Sender, Recipient } = require('mailersend');
 
 jest.mock('mailersend', () => {
+  let shouldThrow = false;
   return {
     MailerSend: jest.fn().mockImplementation(() => {
       return {
         email: {
           send: async () => {
+            if (shouldThrow) {
+              throw new Error('Error sending email');
+            }
             return 'Email sent';
           },
         },
@@ -21,13 +24,13 @@ jest.mock('mailersend', () => {
       };
     }),
     Sender: jest.fn(),
-    Recipient: jest.fn(),
+    Recipient: jest.fn().mockImplementation((from) => {
+      shouldThrow = from === 'throw';
+    }),
   };
 });
 
 describe('MailService', () => {
-  let mockMailerSend;
-
   test('should send a confirmation email successfully', async () => {
     const destination = 'test@test.com';
     const confirmationCode = '123456';
@@ -37,6 +40,18 @@ describe('MailService', () => {
       confirmationCode,
     );
 
-    expect(result).toBe('Email sent');
+    expect(result).toStrictEqual({});
+  });
+
+  test('should send a confirmation email successfully', async () => {
+    const destination = 'throw';
+    const confirmationCode = '123456';
+
+    const result = await MailService.sendConfirmationEmail(
+      destination,
+      confirmationCode,
+    );
+
+    expect(result).toStrictEqual({});
   });
 });

@@ -9,7 +9,8 @@
     "test-coverage": "jest --coverage",
     "test-reporters": "jest --reporters=default --reporters=jest-junit",
     "test-coverage-github-emulation": "jest --coverage --no-cache --runInBand",
-    "build": "webpack"
+    "build": "webpack",
+    "e2e-service": "node test/e2e/service.js"
   },
   "dependencies": {
     "@elastic/ecs-winston-format": "^1.5.3",

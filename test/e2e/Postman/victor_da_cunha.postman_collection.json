@@ -198,6 +198,86 @@
 					"response": []
 				},
 				{
+					"name": "🔴 SERVICE /user/email_verification_code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"EMAIL_VERIFICATION_CODE\", jsonData.email_verification_code);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{EMAIL}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32869/user/email_verification_code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32869",
+							"path": [
+								"user",
+								"email_verification_code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/confirm-email/:verificationCode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/confirm-email/{{EMAIL_VERIFICATION_CODE}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"confirm-email",
+								"{{EMAIL_VERIFICATION_CODE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/auth/login",
 					"event": [
 						{
@@ -409,6 +489,87 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Tests",
+			"item": [
+				{
+					"name": "/user/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"dacunha121@gmail.com\",\r\n  \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"dacunha121@gmail.com\",\r\n  \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -483,6 +644,10 @@
 		{
 			"key": "NUMBER_OF_TOYS_TO_CREATE",
 			"value": "0"
+		},
+		{
+			"key": "EMAIL_VERIFICATION_CODE",
+			"value": ""
 		}
 	]
 }

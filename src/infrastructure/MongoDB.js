@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Config = require('../infrastructure/Config');
-const { log } = require('../infrastructure/Logger');
 
 const getMongoUri = () => {
   const auth = `${Config.mongo.user}:${Config.mongo.password}`;
