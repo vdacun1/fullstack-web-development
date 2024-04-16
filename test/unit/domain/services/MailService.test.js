@@ -26,8 +26,6 @@ jest.mock('mailersend', () => {
 });
 
 describe('MailService', () => {
-  let mockMailerSend;
-
   test('should send a confirmation email successfully', async () => {
     const destination = 'test@test.com';
     const confirmationCode = '123456';
@@ -37,6 +35,6 @@ describe('MailService', () => {
       confirmationCode,
     );
 
-    expect(result).toBe('Email sent');
+    expect(result).toStrictEqual({});
   });
 });

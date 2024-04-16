@@ -29,6 +29,8 @@ const Mailer = {
       .catch(() => {
         log.error(`Error sending email to ${destination}`);
       });
+
+    return {};
   },
 };
 
