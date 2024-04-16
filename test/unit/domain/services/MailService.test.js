@@ -1,5 +1,4 @@
 const MailService = require('@src/domain/services/MailService');
-const { MailerSend, EmailParams, Sender, Recipient } = require('mailersend');
 
 jest.mock('mailersend', () => {
   let shouldThrow = false;
@@ -7,7 +6,7 @@ jest.mock('mailersend', () => {
     MailerSend: jest.fn().mockImplementation(() => {
       return {
         email: {
-          send: async (params) => {
+          send: async () => {
             if (shouldThrow) {
               throw new Error('Error sending email');
             }
