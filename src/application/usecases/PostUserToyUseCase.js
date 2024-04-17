@@ -2,6 +2,7 @@ const UserToyService = require('../../domain/services/UserToyService');
 const HttpStatus = require('../constants/HttpStatus');
 const ErrorType = require('../../domain/constants/ErrorType');
 const ErrorResponse = require('../responses/ErrorResponse');
+const { log } = require('../../infrastructure/Logger');
 
 const PostUserToyUseCase = {
   handle: async (res, data) => {
@@ -19,6 +20,7 @@ const PostUserToyUseCase = {
         .status(userToy.quantity === 1 ? HttpStatus.CREATED : HttpStatus.OK)
         .send(userToy);
     } catch (error) {
+      log.error(error);
       if (error.error === ErrorType.EntityNotFound) {
         return ErrorResponse.handleApiException(res, {
           status: HttpStatus.NOT_FOUND,
