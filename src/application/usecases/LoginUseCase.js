@@ -34,6 +34,7 @@ const LoginUseCase = {
         token,
       });
     } catch (error) {
+      log.error(error);
       return ErrorResponse.handleApiException(res, {
         status: HttpStatus.UNAUTHORIZED,
         message: 'Wrong email or password',
