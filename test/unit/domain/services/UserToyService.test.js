@@ -138,4 +138,56 @@ describe('UserToyService', () => {
       },
     });
   });
+
+  test('should decrement the quantity of a user toy if quantity is more than 1', async () => {
+    const mockUserToy = { _id: '1', user: '1', quantity: 2 };
+    userToyRepositoryMock.findOne.mockResolvedValue(mockUserToy);
+    userToyRepositoryMock.findOneAndUpdate = jest
+      .fn()
+      .mockResolvedValue(mockUserToy);
+
+    const result = await UserToyService.delete('1', '1');
+
+    expect(result).toEqual({ message: 'User toy quantity decremented' });
+    expect(userToyRepositoryMock.findOneAndUpdate).toHaveBeenCalledWith(
+      { _id: '1' },
+      {
+        _id: '1',
+        quantity: 1,
+        user: '1',
+      },
+    );
+  });
+
+  test('should delete a user toy if quantity is 1', async () => {
+    const mockUserToy = { _id: '1', user: '1', quantity: 1 };
+    userToyRepositoryMock.findOne.mockResolvedValue(mockUserToy);
+    userToyRepositoryMock.findOneAndDelete = jest
+      .fn()
+      .mockResolvedValue(mockUserToy);
+
+    const result = await UserToyService.delete('1', '1');
+
+    expect(result).toEqual({ message: 'User toy deleted' });
+    expect(userToyRepositoryMock.findOneAndDelete).toHaveBeenCalledWith({
+      _id: '1',
+    });
+  });
+
+  test('should throw an error when user toy is not found', async () => {
+    userToyRepositoryMock.findOne.mockResolvedValue(null);
+
+    await expect(UserToyService.delete('1', '1')).rejects.toEqual({
+      type: ErrorType.EntityNotFound,
+      message: 'User toy not found',
+    });
+  });
+
+  test('should throw an error when there is a server error', async () => {
+    userToyRepositoryMock.findOne.mockRejectedValue(new Error('Server error'));
+
+    await expect(UserToyService.delete('1', '1')).rejects.toEqual(
+      new Error('Server error'),
+    );
+  });
 });
