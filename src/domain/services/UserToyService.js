@@ -5,6 +5,7 @@ const { log } = require('../../infrastructure/Logger');
 
 const UserToyRepository = require('../repositories/UserToyRepository');
 const UserRepository = require('../repositories/UserRepository');
+const ErrorType = require('../constants/ErrorType');
 
 const CACHE_EXPIRATION_MILLISECONDS = Config.user_toy_cache_expiration;
 
@@ -25,7 +26,7 @@ const UserToyService = {
 
     userToys = await userToyRepository.getUserLastItemsCreated(userId);
     const userToyList = await Promise.all(
-      userToys.map(async ({ toy, color, accessory, quantity }) => {
+      userToys.map(async ({ _id, toy, color, accessory, quantity }) => {
         const [toyName, colorName, accessoryName] =
           await EntityLookupService.byId({
             toyId: toy,
@@ -34,6 +35,7 @@ const UserToyService = {
           });
 
         return {
+          _id,
           toy: toyName,
           color: colorName,
           accessory: accessoryName,
@@ -94,6 +96,39 @@ const UserToyService = {
       accessory: accessoryName,
       quantity: userToy.quantity,
     };
+  },
+
+  delete: async (userId, userToyId) => {
+    const userToyRepository = UserToyRepository();
+    const userToy = await userToyRepository.findOne({
+      _id: userToyId,
+      user: userId,
+    });
+
+    if (!userToy) {
+      throw {
+        type: ErrorType.EntityNotFound,
+        message: 'User toy not found',
+      };
+    }
+
+    await CacheService.groupDel(CacheService.keys.USER_TOY_LIST, userId);
+
+    const { quantity } = userToy;
+    if (quantity > 1) {
+      userToy.quantity -= 1;
+      await userToyRepository.findOneAndUpdate({ _id: userToyId }, userToy);
+
+      return {
+        message: 'User toy quantity decremented',
+      };
+    } else {
+      await userToyRepository.findOneAndDelete({ _id: userToyId });
+
+      return {
+        message: 'User toy deleted',
+      };
+    }
   },
 
   /**
