@@ -1,0 +1,50 @@
+### POST /user/register
+POST {{base_url}}/user/register
+Content-Type: application/json
+
+{
+  "email": "victor0@victor.com",
+  "password": "this_is_a_password"
+}
+
+### POST /auth/login
+POST {{base_url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "victor0@victor.com",
+  "password": "this_is_a_password"
+}
+
+### GET /user-toy/list
+GET {{base_url}}/user-toy/list
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyODAwMzcwLCJleHAiOjE3MTI4MDM5NzB9._R5icf0o6Y8S3dGIJ4tEC6IX7R3SeOXGEfNhzH1-55Q
+
+### POST /user-toy/create
+POST {{base_url}}/user-toy/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjYwZjMzM2U2MmM4MmUxZWRkYWUxMTlmIiwiaWF0IjoxNzEyODAwMzcwLCJleHAiOjE3MTI4MDM5NzB9._R5icf0o6Y8S3dGIJ4tEC6IX7R3SeOXGEfNhzH1-55Q
+
+{
+  "toy": "perro",
+  "color": "amarillo",
+  "accessory": "guitarra eléctrica"
+}
+
+
+### GET /user-toy/ranking
+GET {{base_url}}/user-toy/ranking
+Content-Type: application/json
+
+### GET /toy/list
+GET {{base_url}}/toy/list
+Content-Type: application/json
+
+### GET /color/list
+GET {{base_url}}/color/list
+Content-Type: application/json
+
+### GET /accessory/list
+GET {{base_url}}/accessory/list
+Content-Type: application/json

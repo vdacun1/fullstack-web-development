@@ -1,0 +1,653 @@
+{
+	"info": {
+		"_postman_id": "26acb7d0-6d43-4774-b12f-81beb89fb78a",
+		"name": "Victor da Cunha",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34226717"
+	},
+	"item": [
+		{
+			"name": "API Endpoints",
+			"item": [
+				{
+					"name": "/toy/list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"TOYS\", JSON.stringify(jsonData));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/toy/list",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"toy",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/color/list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"COLORS\", JSON.stringify(jsonData));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/color/list",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"color",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accessory/list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"ACCESSORIES\", JSON.stringify(jsonData));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/accessory/list",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"accessory",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let mail = \"\";\r",
+									"let password = \"\";\r",
+									"\r",
+									"function generateRandomString(length) {\r",
+									"    let result = '';\r",
+									"    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';\r",
+									"    for (let i = 0; i < length; i++) {\r",
+									"        result += characters.charAt(Math.floor(Math.random() * characters.length));\r",
+									"    }\r",
+									"    return result;\r",
+									"}\r",
+									"\r",
+									"function generateRandomDomain() {\r",
+									"    const domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'];\r",
+									"    return domains[Math.floor(Math.random() * domains.length)];\r",
+									"}\r",
+									"\r",
+									"function generateRandomEmail() {\r",
+									"    const randomString = generateRandomString(10);\r",
+									"    const domain = generateRandomDomain();\r",
+									"\r",
+									"    mail = randomString;\r",
+									"    password = randomString;\r",
+									"\r",
+									"    return `${mail}@${domain}`;\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"EMAIL\", generateRandomEmail());\r",
+									"pm.collectionVariables.set(\"PASSWORD\", password);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{EMAIL}}\",\r\n  \"password\": \"{{PASSWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "🔴 SERVICE /user/email_verification_code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"EMAIL_VERIFICATION_CODE\", jsonData.email_verification_code);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{EMAIL}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:32869/user/email_verification_code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "32869",
+							"path": [
+								"user",
+								"email_verification_code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/confirm-email/:verificationCode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/confirm-email/{{EMAIL_VERIFICATION_CODE}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"confirm-email",
+								"{{EMAIL_VERIFICATION_CODE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"JWT_TOKEN\", jsonData.token);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let numberOfToyToCreate = Math.floor(Math.random() * 20);\r",
+									"pm.collectionVariables.set(\"NUMBER_OF_TOYS_TO_CREATE\", numberOfToyToCreate);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{EMAIL}}\",\r\n  \"password\": \"{{PASSWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user-toy/create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let numberOfToyToCreate = parseInt(pm.collectionVariables.get(\"NUMBER_OF_TOYS_TO_CREATE\"), 10);\r",
+									"\r",
+									"let counter = parseInt(pm.collectionVariables.get(\"COUNTER /user-toy/create\"), 10);\r",
+									"if (!counter) {\r",
+									"    counter = 0;\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is one of 201 or 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"counter++;\r",
+									"if (counter < numberOfToyToCreate){\r",
+									"    pm.collectionVariables.set(\"COUNTER /user-toy/create\", counter);\r",
+									"    postman.setNextRequest('/user-toy/create')\r",
+									"} else {\r",
+									"    pm.collectionVariables.set(\"COUNTER /user-toy/create\", 0);\r",
+									"    postman.setNextRequest('/user-toy/list')\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let toys = JSON.parse(pm.collectionVariables.get(\"TOYS\"));\r",
+									"let colors = JSON.parse(pm.collectionVariables.get(\"COLORS\"));\r",
+									"let accessories = JSON.parse(pm.collectionVariables.get(\"ACCESSORIES\"));\r",
+									"\r",
+									"function getRandomToy() {\r",
+									"    const toy = toys[Math.floor(Math.random() * toys.length)];\r",
+									"    return toy.name;\r",
+									"}\r",
+									"\r",
+									"function getRandomColor() {\r",
+									"    const color = colors[Math.floor(Math.random() * colors.length)];\r",
+									"    return color.name;\r",
+									"}\r",
+									"\r",
+									"function getRandomAccessory() {\r",
+									"    const accessory = accessories[Math.floor(Math.random() * accessories.length)];\r",
+									"    return accessory.name;\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"TOY\", getRandomToy());\r",
+									"pm.collectionVariables.set(\"COLOR\", getRandomColor());\r",
+									"pm.collectionVariables.set(\"ACCESSORY\", getRandomAccessory());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"toy\": \"{{TOY}}\",\r\n  \"color\": \"{{COLOR}}\",\r\n  \"accessory\": \"{{ACCESSORY}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user-toy/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user-toy",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user-toy/list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/user-toy/list",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user-toy",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user-toy/ranking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user-toy/ranking",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user-toy",
+								"ranking"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests",
+			"item": [
+				{
+					"name": "/user/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"dacunha121@gmail.com\",\r\n  \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"dacunha121@gmail.com\",\r\n  \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "TOYS",
+			"value": ""
+		},
+		{
+			"key": "COLORS",
+			"value": ""
+		},
+		{
+			"key": "ACCESSORIES",
+			"value": ""
+		},
+		{
+			"key": "EMAIL",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "PASSWORD",
+			"value": ""
+		},
+		{
+			"key": "JWT_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "TOY",
+			"value": ""
+		},
+		{
+			"key": "COLOR",
+			"value": ""
+		},
+		{
+			"key": "ACCESSORY",
+			"value": ""
+		},
+		{
+			"key": "COUNTER /user-toy/create",
+			"value": "0"
+		},
+		{
+			"key": "NUMBER_OF_TOYS_TO_CREATE",
+			"value": "0"
+		},
+		{
+			"key": "EMAIL_VERIFICATION_CODE",
+			"value": ""
+		}
+	]
+}
