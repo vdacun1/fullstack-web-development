@@ -1,3 +1,5 @@
+const DatatypeMap = require('./DatatypeMap');
+
 const winston = require('winston');
 const path = require('path');
 const callsite = require('callsite');
@@ -40,16 +42,24 @@ const metadata = () => {
   };
 };
 
+const parse = (message) => {
+  if (typeof message === DatatypeMap.OBJECT) {
+    return JSON.stringify(message);
+  }
+
+  return message;
+};
+
 const Logger = {
   log: {
     info: (message) => {
-      logger.info(message, metadata());
+      logger.info(parse(message), metadata());
     },
     warn: (message) => {
-      logger.warn(message, metadata());
+      logger.warn(parse(message), metadata());
     },
     error: (message) => {
-      logger.error(message, metadata());
+      logger.error(parse(message), metadata());
     },
   },
 
