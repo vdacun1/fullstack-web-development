@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "API Endpoints",
+			"name": "Poblar base de datos",
 			"item": [
 				{
 					"name": "/toy/list",
@@ -427,7 +427,18 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"let jsonData = pm.response.json();\r",
+									"let id = jsonData[0]._id;\r",
+									"let toy = jsonData[0].toy;\r",
+									"let color = jsonData[0].color;\r",
+									"let accessory = jsonData[0].accessory;\r",
+									"\r",
+									"pm.collectionVariables.set(\"ID_TO_DELETE\", id);\r",
+									"pm.collectionVariables.set(\"TOY_TO_DELETE\", toy);\r",
+									"pm.collectionVariables.set(\"COLOR_TO_DELETE\", color);\r",
+									"pm.collectionVariables.set(\"ACCESSORY_TO_DELETE\", accessory);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -451,6 +462,228 @@
 							"path": [
 								"user-toy",
 								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user-toy/create for decrement and delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"toy\": \"{{TOY_TO_DELETE}}\",\r\n  \"color\": \"{{COLOR_TO_DELETE}}\",\r\n  \"accessory\": \"{{ACCESSORY_TO_DELETE}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user-toy/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user-toy",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user-toy/delete/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is one of 204 or 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+									"});\r",
+									"\r",
+									"let status = pm.response.code;\r",
+									"if (status === 200) {\r",
+									"    postman.setNextRequest('/user-toy/delete/:id')\r",
+									"} else {\r",
+									"    postman.setNextRequest('/user-toy/delete/:id NOT FOUND')\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let toys = JSON.parse(pm.collectionVariables.get(\"TOYS\"));\r",
+									"let colors = JSON.parse(pm.collectionVariables.get(\"COLORS\"));\r",
+									"let accessories = JSON.parse(pm.collectionVariables.get(\"ACCESSORIES\"));\r",
+									"\r",
+									"function getRandomToy() {\r",
+									"    const toy = toys[Math.floor(Math.random() * toys.length)];\r",
+									"    return toy.name;\r",
+									"}\r",
+									"\r",
+									"function getRandomColor() {\r",
+									"    const color = colors[Math.floor(Math.random() * colors.length)];\r",
+									"    return color.name;\r",
+									"}\r",
+									"\r",
+									"function getRandomAccessory() {\r",
+									"    const accessory = accessories[Math.floor(Math.random() * accessories.length)];\r",
+									"    return accessory.name;\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"TOY\", getRandomToy());\r",
+									"pm.collectionVariables.set(\"COLOR\", getRandomColor());\r",
+									"pm.collectionVariables.set(\"ACCESSORY\", getRandomAccessory());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user-toy/delete/{{ID_TO_DELETE}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user-toy",
+								"delete",
+								"{{ID_TO_DELETE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user-toy/delete/:id NOT FOUND",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let toys = JSON.parse(pm.collectionVariables.get(\"TOYS\"));\r",
+									"let colors = JSON.parse(pm.collectionVariables.get(\"COLORS\"));\r",
+									"let accessories = JSON.parse(pm.collectionVariables.get(\"ACCESSORIES\"));\r",
+									"\r",
+									"function getRandomToy() {\r",
+									"    const toy = toys[Math.floor(Math.random() * toys.length)];\r",
+									"    return toy.name;\r",
+									"}\r",
+									"\r",
+									"function getRandomColor() {\r",
+									"    const color = colors[Math.floor(Math.random() * colors.length)];\r",
+									"    return color.name;\r",
+									"}\r",
+									"\r",
+									"function getRandomAccessory() {\r",
+									"    const accessory = accessories[Math.floor(Math.random() * accessories.length)];\r",
+									"    return accessory.name;\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"TOY\", getRandomToy());\r",
+									"pm.collectionVariables.set(\"COLOR\", getRandomColor());\r",
+									"pm.collectionVariables.set(\"ACCESSORY\", getRandomAccessory());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user-toy/delete/{{ID_TO_DELETE}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user-toy",
+								"delete",
+								"{{ID_TO_DELETE}}"
 							]
 						}
 					},
@@ -488,88 +721,8 @@
 					},
 					"response": []
 				}
-			]
-		},
-		{
-			"name": "Tests",
-			"item": [
-				{
-					"name": "/user/register",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"dacunha121@gmail.com\",\r\n  \"password\": \"contraseña\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/user/register",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"user",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/user/login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"dacunha121@gmail.com\",\r\n  \"password\": \"contraseña\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/auth/login",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
+			],
+			"description": "# Como ejecutar los tests para poblar la base de datos\n\n## Paso 1) Poner a correr el servidor\n\nSeguir los pases del `README` del proyecto backend para poner en ejecución la aplicación.\n\nAdemás, ejecutar el servicio auxiliar `e2e-service`. Este servicio que **NO es productivo** permite acceder a los códigos de confirmación de email, y así ejecutar todos los endpoints de la aplicación productiva de forma satisfactoria.\n\n## Paso 2) Preparación de pruebas\n\nHacer click derecho sobre la carpeta de postman `Poblar base de datos` y luego hacer click en `Run folder` (observar Figura 1)\n\n<img src=\"https://content.pstmn.io/b7d9fdf9-4bff-41ee-b191-88bb91de1b91/aW1hZ2UucG5n\" alt=\"Figura%201:%20Run%20folder\">\n\n## Paso 3) Configuración de pruebas\n\nPostman nos permite ejecutar `N` veces las pruebas (observar Figura 2, campo iterations), esto se utilizará como herramienta para poblar la base de datos de usuarios, y peluches asociados a esos usuarios. Además de que probará cada uno de los endpoints disponibles de la aplicación, y todas las funcionalidades de la misma.\n\n<img src=\"https://content.pstmn.io/495f5ea6-8553-4e1a-86cc-31495c47ba8e/aW1hZ2UucG5n\" alt=\"Figura%202:%20Iterations\" width=\"1945\" height=\"974\">\n\nAl campo iterations le setearemos la cantidad de usuarios que queremos crear. Estos se crearán de forma automática. No obstante, si queremos crear un usuario con mail propio específico podemos hacerlo de forma manual utilizando los mismos endpoints de la prueba. Y cambiando el uso de variables por los valores que se requieran.\n\n## Paso 4) Poner a correr\n\nUna vez seteado el valor de iterations, hacer click en `Run Victor da Cunha`. Esperar a finalizar.\n\n¡Listo! Ya tenemos la base de datos de datos para testear la aplicación\n\n## Precauciones\n\nSi se requiere una enorme cantidad de usuarios (>100), se recomienda el uso de la funcionalidad `Performance` de Postman. Esta funcionalidad realiza un test de estrés a la aplicación, y se puede dejar corriendo durante un tiempo determinado. Lo más importante es que exigirá menos recursos de la computadora ya que no se loggean los resultados en consola, sino que simplemente se muestra un gráfico de fallos vs resultados satsifactorios."
 		}
 	],
 	"event": [
@@ -647,6 +800,22 @@
 		},
 		{
 			"key": "EMAIL_VERIFICATION_CODE",
+			"value": ""
+		},
+		{
+			"key": "ID_TO_DELETE",
+			"value": ""
+		},
+		{
+			"key": "TOY_TO_DELETE",
+			"value": ""
+		},
+		{
+			"key": "COLOR_TO_DELETE",
+			"value": ""
+		},
+		{
+			"key": "ACCESSORY_TO_DELETE",
 			"value": ""
 		}
 	]
