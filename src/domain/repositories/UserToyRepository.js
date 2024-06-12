@@ -33,9 +33,9 @@ const UserToyRepository = () => {
         },
         total: { $sum: '$quantity' },
       })
-      .limit(limit)
-      .skip(limit * (page - 1))
       .sort({ total: -1 })
+      .skip(limit * (page - 1))
+      .limit(limit)
       .exec();
   };
 
