@@ -22,7 +22,7 @@ MongoDB.connect().then(() => {
     app.listen(PORT, () => {
       log.info(`NODEJS  - App listening on: http://localhost:${PORT}/`);
       log.info(`MONGODB - Database client on: http://localhost:8081/`);
-      log.info(`GRAFANA - Watch logs on: http://localhost:3000/`);
+      log.info(`GRAFANA - Watch logs on: http://localhost:3001/`);
     });
   });
 });

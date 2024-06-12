@@ -2,7 +2,7 @@ const express = require('express');
 const { authorize } = require('../../application/validations/AuthValidation');
 const GetUserToysRequest = require('../../application/requests/GetUserToysRequest');
 const PostUserToyRequest = require('../../application/requests/PostUserToyRequest');
-const GetUserToyRankingUseCase = require('../../application/usecases/GetUserToyRankingUseCase');
+const GetUserToyRankingRequest = require('../../application/requests/GetUserToyRankingRequest');
 const DeleteUserToyRequest = require('../../application/requests/DeleteUserToyRequest');
 
 const userToy = express.Router();
@@ -11,14 +11,16 @@ const userToy = express.Router();
 const { limiter } = require('../../infrastructure/Config');
 
 userToy.get(
-  '/list',
+  '/list/:page/:limit',
   limiter,
   authorize,
   GetUserToysRequest.validate(),
   GetUserToysRequest.handle,
 );
 
-userToy.get('/ranking', GetUserToyRankingUseCase.handle);
+userToy.get('/ranking/:page/:limit',
+  GetUserToyRankingRequest.validate(),
+  GetUserToyRankingRequest.handle);
 
 userToy.post(
   '/create',

@@ -1,16 +1,16 @@
-const UserToyService = require('../../domain/services/UserToyService');
+const UserService = require('../../domain/services/UserService');
 const HttpStatus = require('../constants/HttpStatus');
 const ErrorResponse = require('../responses/ErrorResponse');
 const { log } = require('../../infrastructure/Logger');
 
-const GetUserToysUseCase = {
+const GetUserUseCase = {
   handle: async (res, data) => {
     try {
-      const { user, page, limit } = data;
+      const { user: id } = data;
 
-      const userToys = await UserToyService.list(user, page, limit);
+      const user = await UserService.getUser(id);
 
-      return res.status(HttpStatus.OK).send(userToys);
+      return res.status(HttpStatus.OK).send(user);
     } catch (error) {
       log.error(error);
       return ErrorResponse.handleApiException(res, {
@@ -21,4 +21,4 @@ const GetUserToysUseCase = {
   },
 };
 
-module.exports = GetUserToysUseCase;
+module.exports = GetUserUseCase;
