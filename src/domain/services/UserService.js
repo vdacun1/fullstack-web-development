@@ -33,6 +33,11 @@ const UserService = {
     const userRepository = UserRepository();
     return userRepository.getPasswordByEmail(email);
   },
+
+  getUser: async (id) => {
+    const userRepository = UserRepository();
+    return userRepository.findById(id);
+  },
 };
 
 module.exports = UserService;

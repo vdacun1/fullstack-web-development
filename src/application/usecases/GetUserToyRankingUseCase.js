@@ -4,9 +4,11 @@ const ErrorResponse = require('../responses/ErrorResponse');
 const { log } = require('../../infrastructure/Logger');
 
 const GetUserToyRankingUseCase = {
-  handle: async (req, res) => {
+  handle: async (res, data) => {
     try {
-      const userToyRanking = await UserToyService.ranking();
+      const { page, limit } = data;
+
+      const userToyRanking = await UserToyService.ranking(page, limit);
 
       return res.status(HttpStatus.OK).send(userToyRanking);
     } catch (error) {

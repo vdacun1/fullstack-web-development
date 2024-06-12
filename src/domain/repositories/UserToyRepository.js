@@ -7,8 +7,8 @@ const UserToyRepository = () => {
 
   UserToyModel.getUserLastItemsCreated = async (
     user,
-    limit = Config.page_size,
     page = 1,
+    limit = Config.page_size,
   ) => {
     return await UserToyModel.find({ user })
       .limit(limit)
@@ -18,9 +18,12 @@ const UserToyRepository = () => {
   };
 
   UserToyModel.getGlobalRanking = async (
-    limit = Config.page_size,
     page = 1,
+    limit = Config.page_size,
   ) => {
+    page = parseInt(page);
+    limit = parseInt(limit);
+
     return await UserToyModel.aggregate()
       .group({
         _id: {
@@ -31,8 +34,8 @@ const UserToyRepository = () => {
         total: { $sum: '$quantity' },
       })
       .sort({ total: -1 })
-      .limit(limit)
       .skip(limit * (page - 1))
+      .limit(limit)
       .exec();
   };
 

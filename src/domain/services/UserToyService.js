@@ -10,22 +10,12 @@ const ErrorType = require('../constants/ErrorType');
 const CACHE_EXPIRATION_MILLISECONDS = Config.user_toy_cache_expiration;
 
 const UserToyService = {
-  list: async (userId) => {
-    const cacheKey = userId;
-    const cachedUserToyList = await CacheService.groupGet(
-      CacheService.keys.USER_TOY_LIST,
-      cacheKey,
-    );
-
-    if (cachedUserToyList) {
-      return JSON.parse(cachedUserToyList);
-    }
-
+  list: async (userId, page, limit) => {
     const userToyRepository = UserToyRepository();
     let userToys;
 
-    userToys = await userToyRepository.getUserLastItemsCreated(userId);
-    const userToyList = await Promise.all(
+    userToys = await userToyRepository.getUserLastItemsCreated(userId, page, limit);
+    return await Promise.all(
       userToys.map(async ({ _id, toy, color, accessory, quantity }) => {
         const [toyName, colorName, accessoryName] =
           await EntityLookupService.byId({
@@ -43,14 +33,6 @@ const UserToyService = {
         };
       }),
     );
-
-    await CacheService.groupSet(
-      CacheService.keys.USER_TOY_LIST,
-      cacheKey,
-      JSON.stringify(userToyList),
-    );
-
-    return userToyList;
   },
 
   create: async ({ userId, toyName, colorName, accessoryName }) => {
@@ -86,7 +68,6 @@ const UserToyService = {
       await user.save();
     }
 
-    await CacheService.groupDel(CacheService.keys.USER_TOY_LIST, userId);
     await CacheService.set(CacheService.keys.NEW_TOYS_ADDED, 'true');
 
     return {
@@ -111,8 +92,6 @@ const UserToyService = {
         message: 'User toy not found',
       };
     }
-
-    await CacheService.groupDel(CacheService.keys.USER_TOY_LIST, userId);
 
     const { quantity } = userToy;
     if (quantity > 1) {
@@ -147,7 +126,7 @@ const UserToyService = {
    * If the flag is set to true and the cache has not expired, the function will
    * return the cached data as it is.
    */
-  ranking: async () => {
+  ranking: async (page, limit) => {
     const cacheKey = CacheService.keys.USER_TOY_RANKING;
     const cachedData = await CacheService.get(cacheKey);
     const newToysAdded = await CacheService.get(
@@ -174,7 +153,7 @@ const UserToyService = {
     }
 
     const userToyRepository = UserToyRepository();
-    const globalRanking = await userToyRepository.getGlobalRanking();
+    const globalRanking = await userToyRepository.getGlobalRanking(page, limit);
 
     let userToyRanking = await Promise.all(
       globalRanking.map(async ({ _id, total }) => {
