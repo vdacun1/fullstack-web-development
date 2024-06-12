@@ -135,7 +135,7 @@ const UserToyService = {
 
     const currentTime = Date.now();
 
-    if (cachedData && false) {
+    if (cachedData) {
       const { timestamp, userToyRanking } = JSON.parse(cachedData);
 
       if (newToysAdded === 'false') {
